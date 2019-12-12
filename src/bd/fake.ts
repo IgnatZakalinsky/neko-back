@@ -13,7 +13,7 @@ const store = {
         const user = this.users.find(u => u.email === email);
         if (user && user.password === password) {
             const token = Math.random().toString();
-            this.users.map(u => u.password === user.password ? {...u, rememberMe, token} : u);
+            this.users = this.users.map(u => u.password === user.password ? {...u, rememberMe, token} : u);
             return {name: user.email, token}
         } else {
             return {error: 'not correct email/password'}
@@ -45,7 +45,7 @@ const store = {
         const user = this.users.find(u => u.token === token);
         if (user) {
             token = Math.random().toString();
-            this.users.map(u => u.password === user.password ? {...u, token} : u);
+            this.users = this.users.map(u => u.password === user.password ? {...u, token} : u);
             return {name: user.email, token}
         } else {
             return {error: 'user not found'}
