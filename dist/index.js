@@ -38,8 +38,8 @@ app.use((req, res) => {
     res.send(404);
 });
 //start
-app.listen(7542, function () {
-    console.log('Example app listening on port 7542!');
+app.listen(process.env.PORT, function () {
+    console.log('Example app listening on port: ' + process.env.PORT);
 });
 console.log('start...');
 process.on('unhandledRejection', (reason, p) => {

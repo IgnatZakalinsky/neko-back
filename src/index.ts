@@ -44,8 +44,8 @@ app.use((req: any, res: any) => {
 });
 
 //start
-app.listen(7542, function () {
-    console.log('Example app listening on port 7542!');
+app.listen(process.env.PORT, function () {
+    console.log('Example app listening on port: ' + process.env.PORT);
 });
 console.log('start...');
 
