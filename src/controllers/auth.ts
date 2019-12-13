@@ -12,6 +12,14 @@ router.use(function timeLog(req: any, res: any, next: any) {
     console.log('Time: ', Date.now(), store);
     next();
 });
+router.get('/', async (req: any, res: any) => {
+    const users = [
+        {id: 1, name: 'x'}
+    ];
+
+    if (users) res.send(JSON.stringify(users));
+    else res.send(404);
+});
 // router.get('/:id', async (req, res) => {
 //     let users = await getUsersMongoById(req.params.id);
 //
@@ -19,6 +27,7 @@ router.use(function timeLog(req: any, res: any, next: any) {
 //     if (users) res.send(JSON.stringify(users));
 //     else res.send(404);
 // });
+
 // router.get('/', async (req, res) => {
 //     let users;
 //     if (req.query.name) {

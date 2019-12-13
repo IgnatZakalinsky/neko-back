@@ -20,6 +20,15 @@ router.use(function timeLog(req, res, next) {
     console.log('Time: ', Date.now(), store);
     next();
 });
+router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const users = [
+        { id: 1, name: 'x' }
+    ];
+    if (users)
+        res.send(JSON.stringify(users));
+    else
+        res.send(404);
+}));
 // router.get('/:id', async (req, res) => {
 //     let users = await getUsersMongoById(req.params.id);
 //
