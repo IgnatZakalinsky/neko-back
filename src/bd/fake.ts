@@ -50,6 +50,9 @@ const store = {
         } else {
             return {error: 'user not found'}
         }
+    },
+    getAll() {
+        return this.users;
     }
 
 };

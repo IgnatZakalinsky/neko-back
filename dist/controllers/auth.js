@@ -21,9 +21,7 @@ router.use(function timeLog(req, res, next) {
     next();
 });
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const users = [
-        { id: 1, name: 'x' }
-    ];
+    const users = store.getAll();
     if (users)
         res.send(JSON.stringify(users));
     else
