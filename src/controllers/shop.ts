@@ -31,7 +31,7 @@ router.delete('/', async (req: any, res: any) => {
     if (product) res.send(JSON.stringify(product));
     else res.send(404);
 });
-router.putt('/', async (req: any, res: any) => {
+router.put('/', async (req: any, res: any) => {
     const product = shopStore.updateProduct(req.body.product);
 
     if (product) res.send(JSON.stringify(product));

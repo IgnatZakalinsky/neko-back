@@ -42,7 +42,7 @@ router.delete('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     else
         res.send(404);
 }));
-router.putt('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.put('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const product = shopStore.updateProduct(req.body.product);
     if (product)
         res.send(JSON.stringify(product));
