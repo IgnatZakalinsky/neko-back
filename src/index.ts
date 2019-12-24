@@ -2,6 +2,7 @@
 const express = require('express');
 const app = express();
 const auth = require('./controllers/auth');
+const shop = require('./controllers/shop');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
@@ -37,6 +38,7 @@ app.use(bodyParser.json());
 // });
 ///////////////////////////////////////////////////////////////////////
 app.use('/auth', auth);
+app.use('/shop', shop);
 
 //default
 app.use((req: any, res: any) => {

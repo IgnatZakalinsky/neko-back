@@ -3,6 +3,7 @@
 const express = require('express');
 const app = express();
 const auth = require('./controllers/auth');
+const shop = require('./controllers/shop');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 // const mongoose = require('mongoose');
@@ -33,6 +34,7 @@ app.use(bodyParser.json());
 // });
 ///////////////////////////////////////////////////////////////////////
 app.use('/auth', auth);
+app.use('/shop', shop);
 //default
 app.use((req, res) => {
     res.send(404);

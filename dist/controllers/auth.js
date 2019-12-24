@@ -14,6 +14,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const express = require('express');
 // @ts-ignore
 const store = require('./../bd/fake');
+// @ts-ignore
 const router = express.Router();
 // middleware that is specific to this router
 router.use(function timeLog(req, res, next) {
