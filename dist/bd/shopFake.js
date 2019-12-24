@@ -19,7 +19,7 @@ const shopStore = {
         },
     ],
     getProducts() {
-        return this.products;
+        return { products: this.products };
     }
     // login(email: string, password: string, rememberMe: boolean) {
     //     const user = this.users.find(u => u.email === email);
