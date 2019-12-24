@@ -10,7 +10,7 @@ const router = express.Router();
 
 // middleware that is specific to this router
 router.use(function timeLog(req: any, res: any, next: any) {
-    console.log('Time: ', Date.now(), store);
+    console.log('Time: ', Date.now(), shopStore);
     next();
 });
 router.get('/', async (req: any, res: any) => {

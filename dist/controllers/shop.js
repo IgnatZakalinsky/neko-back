@@ -18,7 +18,7 @@ const shopStore = require('./../bd/shopFake');
 const router = express.Router();
 // middleware that is specific to this router
 router.use(function timeLog(req, res, next) {
-    console.log('Time: ', Date.now(), store);
+    console.log('Time: ', Date.now(), shopStore);
     next();
 });
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
