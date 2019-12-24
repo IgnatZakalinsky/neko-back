@@ -19,6 +19,24 @@ router.get('/', async (req: any, res: any) => {
     if (products) res.send(JSON.stringify(products));
     else res.send(404);
 });
+router.post('/', async (req: any, res: any) => {
+    const product = shopStore.addProduct(req.body.product);
+
+    if (product) res.send(JSON.stringify(product));
+    else res.send(404);
+});
+router.delete('/', async (req: any, res: any) => {
+    const product = shopStore.deleteProduct(req.query.id);
+
+    if (product) res.send(JSON.stringify(product));
+    else res.send(404);
+});
+router.putt('/', async (req: any, res: any) => {
+    const product = shopStore.updateProduct(req.body.product);
+
+    if (product) res.send(JSON.stringify(product));
+    else res.send(404);
+});
 
 // router.post('/login', async (req: any, res: any) => {
 //     console.log(req.body);

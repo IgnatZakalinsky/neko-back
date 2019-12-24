@@ -21,7 +21,29 @@ const shopStore = {
 
     getProducts() {
         return {products: this.products};
-    }
+    },
+    addProduct(product: any) {
+        const newProduct = {
+            ...product,
+            id: Math.random().toString(),
+        };
+
+        this.products.push(newProduct);
+
+        return {newProduct: newProduct};
+    },
+    deleteProduct(id: string) {
+        const product = this.products.find(p => p.id === id);
+        this.products = this.products.filter(p => p.id !== id);
+
+        return {deletedProduct: product};
+    },
+    updateProduct(product: any) {
+        const selectedProduct = this.products.find(p => p.id === product.id);
+        this.products = this.products.map(p => p.id === product.id ? product : p);
+
+        return {updatedProduct: product};
+    },
 
     // login(email: string, password: string, rememberMe: boolean) {
     //     const user = this.users.find(u => u.email === email);

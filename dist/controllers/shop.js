@@ -28,6 +28,27 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     else
         res.send(404);
 }));
+router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const product = shopStore.addProduct(req.body.product);
+    if (product)
+        res.send(JSON.stringify(product));
+    else
+        res.send(404);
+}));
+router.delete('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const product = shopStore.deleteProduct(req.query.id);
+    if (product)
+        res.send(JSON.stringify(product));
+    else
+        res.send(404);
+}));
+router.putt('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const product = shopStore.updateProduct(req.body.product);
+    if (product)
+        res.send(JSON.stringify(product));
+    else
+        res.send(404);
+}));
 // router.post('/login', async (req: any, res: any) => {
 //     console.log(req.body);
 //     //let result = await addUser(req.body.name);
