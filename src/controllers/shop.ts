@@ -16,11 +16,11 @@ router.use(function timeLog(req: any, res: any, next: any) {
 router.get('/', async (req: any, res: any) => {
     const products = shopStore.getProducts(
         req.query.productName,
-        req.query.min,
-        req.query.max,
+        Number(req.query.min),
+        Number(req.query.max),
         req.query.sortProducts,
-        req.query.page,
-        req.query.pageCount
+        Number(req.query.page),
+        Number(req.query.pageCount)
     );
 
     if (products) res.send(JSON.stringify(products));
