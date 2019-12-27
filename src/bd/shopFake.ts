@@ -54,8 +54,7 @@ const shopStore = {
         if (page && pageCount) {
             if (pageCount * (page - 1) > productTotalCount)
                 someProducts = someProducts.slice(pageCount * (page - 1), pageCount * page);
-            else someProducts = someProducts.slice(0, pageCount || 7);
-        }
+        } else someProducts = someProducts.slice(0, pageCount || 7);
 
         return {
             products: someProducts,
