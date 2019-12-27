@@ -61,8 +61,8 @@ const shopStore = {
             minPrice,
             maxPrice,
             productTotalCount,
-            page,
-            pageCount,
+            page: page || 1,
+            pageCount: pageCount || 7,
         };
     },
     addProduct(product: any) {
