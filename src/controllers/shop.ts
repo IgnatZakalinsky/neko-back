@@ -14,7 +14,14 @@ router.use(function timeLog(req: any, res: any, next: any) {
     next();
 });
 router.get('/', async (req: any, res: any) => {
-    const products = shopStore.getProducts();
+    const products = shopStore.getProducts(
+        req.query.productName,
+        req.query.min,
+        req.query.max,
+        req.query.sortProducts,
+        req.query.page,
+        req.query.pageCount
+    );
 
     if (products) res.send(JSON.stringify(products));
     else res.send(404);

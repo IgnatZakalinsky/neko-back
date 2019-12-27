@@ -22,7 +22,7 @@ router.use(function timeLog(req, res, next) {
     next();
 });
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const products = shopStore.getProducts();
+    const products = shopStore.getProducts(req.query.productName, req.query.min, req.query.max, req.query.sortProducts, req.query.page, req.query.pageCount);
     if (products)
         res.send(JSON.stringify(products));
     else
