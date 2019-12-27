@@ -58,8 +58,8 @@ const shopStore = {
 
         return {
             products: someProducts,
-            minPrice,
-            maxPrice,
+            minPrice: minPrice || 500,
+            maxPrice: maxPrice || 100000,
             productTotalCount,
             page: page || 1,
             pageCount: pageCount || 7,
