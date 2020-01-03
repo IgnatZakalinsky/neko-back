@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const auth = require('./controllers/auth');
 const shop = require('./controllers/shop');
+const file = require('./controllers/file');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 // const mongoose = require('mongoose');
@@ -35,13 +36,14 @@ app.use(bodyParser.json());
 ///////////////////////////////////////////////////////////////////////
 app.use('/auth', auth);
 app.use('/shop', shop);
+app.use('/file', file);
 //default
 app.use((req, res) => {
     res.send(404);
 });
 //start
 app.listen(process.env.PORT, function () {
-    console.log('Example app listening on port: ' + process.env.PORT);
+    console.log('Neko-back app listening on port: ' + process.env.PORT);
 });
 console.log('start...');
 process.on('unhandledRejection', (reason, p) => {

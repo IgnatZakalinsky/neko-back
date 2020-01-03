@@ -45,37 +45,4 @@ router.put('/', async (req: any, res: any) => {
     else res.send(404);
 });
 
-// router.post('/login', async (req: any, res: any) => {
-//     console.log(req.body);
-//     //let result = await addUser(req.body.name);
-//     // await addUserMongo(req.body.name);
-//     const answer = store.login(req.body.email, req.body.password, req.body.rememberMe);
-//
-//     res.send(JSON.stringify(answer));
-// });
-// router.post('/register', async (req: any, res: any) => {
-//     console.log(req.body);
-//     //let result = await addUser(req.body.name);
-//     // await addUserMongo(req.body.name);
-//     const answer = store.register(req.body.email, req.body.password);
-//
-//     res.send(JSON.stringify(answer));
-// });
-// router.post('/forgot', async (req: any, res: any) => {
-//     console.log(req.body);
-//     //let result = await addUser(req.body.name);
-//     // await addUserMongo(req.body.name);
-//     const answer = store.forgot(req.body.email);
-//
-//     res.send(JSON.stringify(answer));
-// });
-// router.post('/me', async (req: any, res: any) => {
-//     console.log(req.body);
-//     //let result = await addUser(req.body.name);
-//     // await addUserMongo(req.body.name);
-//     const answer = store.me(req.body.token);
-//
-//     res.send(JSON.stringify(answer));
-// });
-
 module.exports = router;
