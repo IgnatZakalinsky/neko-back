@@ -20,7 +20,11 @@ router.get('/', async (req: any, res: any) => {
     else res.send(404);
 });
 router.post('/', async (req: any, res: any) => {
-    const success = fileStore.addFile64(req.body.file64);
+    let success = {success: false};
+    if (req.body.file64) success = fileStore.addFile64(req.body.file64);
+    else {
+        // save file
+    }
 
     if (success) res.send(JSON.stringify(success));
     else res.send(404);

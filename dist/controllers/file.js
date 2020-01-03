@@ -29,7 +29,12 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.send(404);
 }));
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const success = fileStore.addFile64(req.body.file64);
+    let success = { success: false };
+    if (req.body.file64)
+        success = fileStore.addFile64(req.body.file64);
+    else {
+        // save file
+    }
     if (success)
         res.send(JSON.stringify(success));
     else
