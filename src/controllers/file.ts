@@ -10,7 +10,7 @@ const router = express.Router();
 
 // middleware that is specific to this router
 router.use(function timeLog(req: any, res: any, next: any) {
-    console.log('Time: ', Date.now(), shopStore);
+    console.log('Time: ', Date.now(), fileStore);
     next();
 });
 router.get('/', async (req: any, res: any) => {
@@ -32,6 +32,7 @@ router.post('/', async (req: any, res: any) => {
 //     if (product) res.send(JSON.stringify(product));
 //     else res.send(404);
 // });
+
 // router.put('/', async (req: any, res: any) => {
 //     const product = shopStore.updateProduct(req.body.product);
 //
