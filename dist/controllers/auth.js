@@ -29,10 +29,11 @@ auth.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 auth.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.create({
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        isAdmin: false
     })
         .then((user) => res.status(201).json({ addedUser: user, success: true }))
-        .catch((e) => res.status(409).json({ error: e }));
+        .catch((e) => res.status(409).json({ error: e.errors.message, e }));
 }));
 auth.post('/forgot', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const answer = store.forgot(req.body.email);

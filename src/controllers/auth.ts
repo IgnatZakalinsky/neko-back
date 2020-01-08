@@ -20,10 +20,11 @@ auth.post('/login', async (req: Request, res: Response) => {
 auth.post('/register', async (req: Request, res: Response) => {
     User.create({
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        isAdmin: false
     })
         .then((user: any) => res.status(201).json({addedUser: user, success: true}))
-        .catch((e: any) => res.status(409).json({error: e}));
+        .catch((e: any) => res.status(409).json({error: e.errors.message, e}));
 });
 auth.post('/forgot', async (req: Request, res: Response) => {
 
