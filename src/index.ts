@@ -1,59 +1,54 @@
-// @ts-ignore
-const express = require('express');
-const app = express();
-const auth = require('./controllers/auth');
-const shop = require('./controllers/shop');
-const file = require('./controllers/file');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+import express, {Request, Response, NextFunction} from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import auth from './controllers/auth';
+import shop from './controllers/shop';
+import file from './controllers/file';
 
-// const mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost/my_database', {useNewUrlParser: true});
-// //automatic create db with name "my_database"
+const app = express();
+mongoose.connect(
+    'mongodb+srv://ai73aaa:1qazxcvBG@neko0-iwojt.mongodb.net/nekobd?retryWrites=true&w=majority',
+    {useNewUrlParser: true, useUnifiedTopology: true}
+)
+    .then(() => console.log('MongoDB connected successfully'))
+    .catch(e => console.log('MongoDB connection error: ' + e));
 
 app.use(cors());
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '200mb'}));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({limit: '200mb', extended: false}));
 
-//route/////////////////////////////////////////////////////////////////////////////////////
-// const {addUserMongo, getUsersMongo, deleteUsersMongo, getUsersMongoById, updateUsersMongo} = require("./mongoRep");
-// let {getUsers, addUser} = require('./rep.js');
+// log middleware
+app.use((req: Request, res: Response, next: NextFunction) => {
+    console.log('Time: ', new Date().toDateString());
+    console.log(req.method, req.url, 'params:', req.params);
+    console.log('query:', req.query);
+    console.log('body:', req.body);
+    // console.log('headers:', req.headers);
+    // console.log('rawHeaders:', req.rawHeaders);
+    next();
+});
 
-// const router = express.Router();
-//
-// // middleware that is specific to this router
-// router.use(function timeLog(req, res, next) {
-//     console.log('Time: ', Date.now());
-//     next();
-// });
-// router.get('/auth', async (req, res) => {
-//     // let users = await getUsersMongoById(req.params.id);
-//     const users = {name: 'xxx'};
-//
-//     // console.log(req.params.id);
-//     if (users) res.send(JSON.stringify(users));
-//     else res.send(404);
-// });
-///////////////////////////////////////////////////////////////////////
+// routes
 app.use('/auth', auth);
 app.use('/shop', shop);
 app.use('/file', file);
 
 //default
-app.use((req: any, res: any) => {
+app.use((req: Request, res: Response) => {
+    console.log('bad url: ', req);
     res.send(404);
 });
 
 //start
-app.listen(process.env.PORT, function () {
+app.listen(process.env.PORT, () => {
     console.log('Neko-back app listening on port: ' + process.env.PORT);
 });
 console.log('start...');
 
 process.on('unhandledRejection', (reason, p) => {
-    console.log(reason, p);
+    console.log('unhandledRejection: ', reason, p);
 });
-

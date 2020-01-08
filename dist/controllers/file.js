@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 // @ts-ignore
 const express = require('express');
 // @ts-ignore
@@ -52,5 +53,5 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 //     if (product) res.send(JSON.stringify(product));
 //     else res.send(404);
 // });
-module.exports = router;
+exports.default = router;
 //# sourceMappingURL=file.js.map
