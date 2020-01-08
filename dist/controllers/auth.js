@@ -57,12 +57,18 @@ auth.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function*
         .catch((e) => res.status(400).json({ error: 'email address already exists', e }));
 }));
 auth.post('/forgot', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // const answer = store.forgot(req.body.email);
-    res.send(JSON.stringify({}));
+    user_1.default.findOne({ email: req.body.email })
+        .then((user) => {
+        if (!user)
+            res.status(404).json({ error: 'Email address not found' });
+        else
+            res.status(200).json({ error: "sorry, I can't send new password on your email" });
+    })
+        .catch(e => res.status(500).json({ error: 'some error', e }));
 }));
 auth.post('/me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // const answer = store.me(req.body.token);
-    res.send(JSON.stringify({}));
+    res.status(401).json({ error: 'user not found' });
 }));
 exports.default = auth;
 //# sourceMappingURL=auth.js.map

@@ -54,7 +54,7 @@ auth.post('/me', async (req: Request, res: Response) => {
 
     // const answer = store.me(req.body.token);
 
-    res.send(JSON.stringify({error: 'test'}));
+    res.status(401).json({error: 'user not found'});
 });
 
 export default auth;
