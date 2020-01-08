@@ -24,6 +24,9 @@ const UserSchema = new mongoose_1.Schema({
     },
     token: {
         type: String,
+    },
+    tokenDeathTime: {
+        type: Number,
     }
 });
 exports.default = mongoose_1.default.model('user', UserSchema);

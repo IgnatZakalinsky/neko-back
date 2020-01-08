@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const v1_1 = __importDefault(require("uuid/v1"));
 const auth = express_1.default.Router();
 const user_1 = __importDefault(require("../models/user"));
 // const store = require('./../bd/fake');
@@ -20,11 +21,31 @@ auth.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.find()
         .then(users => res.status(200)
         .json({ users, warnings: ['This endpoint will be deleted!!! Just for development!!!'] }))
-        .catch(e => res.status(404).json({ error: e.toString(), errorObject: e }));
+        .catch(e => res.status(500).json({ error: e.toString(), errorObject: e }));
 }));
 auth.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const answer = store.login(req.body.email, req.body.password, req.body.rememberMe);
-    res.send(JSON.stringify(answer));
+    user_1.default.findOne({ email: req.body.email })
+        .then((user) => {
+        if (!user)
+            res.status(400).json({ error: 'not correct email/password' });
+        else if (user.password !== req.body.password)
+            res.status(400).json({ error: 'not correct email/password' });
+        else {
+            const token = v1_1.default();
+            const tokenDeathTime = req.body.rememberMe
+                ? new Date().getTime() + (1000 * 60 * 60 * 24) // 1 day
+                : new Date().getTime() + (1000 * 60 * 60 * 24 * 7); // 7 day
+            user_1.default.findByIdAndUpdate(user.id, { token, tokenDeathTime }, { new: true })
+                .then((newUser) => {
+                if (!newUser)
+                    res.status(500).json({ error: 'not updated?' });
+                else
+                    res.status(200).json(Object.assign({}, newUser));
+            })
+                .catch(e => res.status(500).json({ error: 'some error', e }));
+        }
+    })
+        .catch(e => res.status(500).json({ error: 'some error', e }));
 }));
 auth.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.create({
@@ -33,7 +54,7 @@ auth.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function*
         isAdmin: false
     })
         .then((user) => res.status(201).json({ addedUser: user, success: true }))
-        .catch((e) => res.status(409).json({ error: 'email address already exists', e }));
+        .catch((e) => res.status(400).json({ error: 'email address already exists', e }));
 }));
 auth.post('/forgot', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const answer = store.forgot(req.body.email);

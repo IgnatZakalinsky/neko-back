@@ -1,11 +1,12 @@
 import mongoose, {Schema, Document} from "mongoose";
 
-interface IUser extends Document {
+export interface IUser extends Document {
     _id: mongoose.Types.ObjectId;
     email: string;
     password: string;
     isAdmin: boolean;
     token: string;
+    tokenDeathTime: number;
 }
 
 const UserSchema: Schema = new Schema({
@@ -24,6 +25,9 @@ const UserSchema: Schema = new Schema({
     },
     token: {
         type: String,
+    },
+    tokenDeathTime: {
+        type: Number,
     }
 
 });
