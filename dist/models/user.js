@@ -27,12 +27,4 @@ const UserSchema = new mongoose_1.Schema({
     }
 });
 exports.default = mongoose_1.default.model('user', UserSchema);
-// app.get('/mongo-add', (req: Request, res: Response) => {
-//     User.create({
-//         email: 'test mongo email',
-//         password: 'test mongo password'
-//     })
-//         .then((user: any) => res.send(user))
-//         .catch((e: any) => res.send(e));
-// });
 //# sourceMappingURL=user.js.map

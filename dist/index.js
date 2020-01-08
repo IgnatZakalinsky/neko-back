@@ -21,7 +21,7 @@ app.use(body_parser_1.default.json({ limit: '200mb' }));
 app.use(body_parser_1.default.urlencoded({ limit: '200mb', extended: false }));
 // log middleware
 app.use((req, res, next) => {
-    console.log('Time: ', new Date().toDateString());
+    console.log('Time: ', new Date().toString());
     console.log(req.method, req.url, 'params:', req.params);
     console.log('query:', req.query);
     console.log('body:', req.body);

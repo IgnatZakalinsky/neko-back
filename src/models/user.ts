@@ -29,12 +29,3 @@ const UserSchema: Schema = new Schema({
 });
 
 export default mongoose.model<IUser>('user', UserSchema);
-
-// app.get('/mongo-add', (req: Request, res: Response) => {
-//     User.create({
-//         email: 'test mongo email',
-//         password: 'test mongo password'
-//     })
-//         .then((user: any) => res.send(user))
-//         .catch((e: any) => res.send(e));
-// });

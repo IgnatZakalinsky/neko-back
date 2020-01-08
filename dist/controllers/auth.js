@@ -23,30 +23,22 @@ auth.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         .catch(e => res.status(404).json({ error: e.toString(), errorObject: e }));
 }));
 auth.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
-    //let result = await addUser(req.body.name);
-    // await addUserMongo(req.body.name);
     const answer = store.login(req.body.email, req.body.password, req.body.rememberMe);
     res.send(JSON.stringify(answer));
 }));
 auth.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
-    //let result = await addUser(req.body.name);
-    // await addUserMongo(req.body.name);
-    const answer = store.register(req.body.email, req.body.password);
-    res.send(JSON.stringify(answer));
+    user_1.default.create({
+        email: req.body.email,
+        password: req.body.password
+    })
+        .then((user) => res.status(201).json({ addedUser: user, success: true }))
+        .catch((e) => res.status(409).json({ error: e }));
 }));
 auth.post('/forgot', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
-    //let result = await addUser(req.body.name);
-    // await addUserMongo(req.body.name);
     const answer = store.forgot(req.body.email);
     res.send(JSON.stringify(answer));
 }));
 auth.post('/me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
-    //let result = await addUser(req.body.name);
-    // await addUserMongo(req.body.name);
     const answer = store.me(req.body.token);
     res.send(JSON.stringify(answer));
 }));
