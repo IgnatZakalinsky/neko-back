@@ -44,15 +44,15 @@ auth.post('/register', async (req: Request, res: Response) => {
 });
 auth.post('/forgot', async (req: Request, res: Response) => {
 
-    const answer = store.forgot(req.body.email);
+    // const answer = store.forgot(req.body.email);
 
-    res.send(JSON.stringify(answer));
+    res.send(JSON.stringify({}));
 });
 auth.post('/me', async (req: Request, res: Response) => {
 
-    const answer = store.me(req.body.token);
+    // const answer = store.me(req.body.token);
 
-    res.send(JSON.stringify(answer));
+    res.send(JSON.stringify({}));
 });
 
 export default auth;

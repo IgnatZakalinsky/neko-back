@@ -57,12 +57,12 @@ auth.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function*
         .catch((e) => res.status(400).json({ error: 'email address already exists', e }));
 }));
 auth.post('/forgot', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const answer = store.forgot(req.body.email);
-    res.send(JSON.stringify(answer));
+    // const answer = store.forgot(req.body.email);
+    res.send(JSON.stringify({}));
 }));
 auth.post('/me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const answer = store.me(req.body.token);
-    res.send(JSON.stringify(answer));
+    // const answer = store.me(req.body.token);
+    res.send(JSON.stringify({}));
 }));
 exports.default = auth;
 //# sourceMappingURL=auth.js.map
