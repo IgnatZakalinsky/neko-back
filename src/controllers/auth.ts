@@ -24,7 +24,7 @@ auth.post('/register', async (req: Request, res: Response) => {
         isAdmin: false
     })
         .then((user: any) => res.status(201).json({addedUser: user, success: true}))
-        .catch((e: any) => res.status(409).json({error: e.errors.message, e}));
+        .catch((e: any) => res.status(409).json({error: 'email address already exists', e}));
 });
 auth.post('/forgot', async (req: Request, res: Response) => {
 

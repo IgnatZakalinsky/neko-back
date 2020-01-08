@@ -33,7 +33,7 @@ auth.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function*
         isAdmin: false
     })
         .then((user) => res.status(201).json({ addedUser: user, success: true }))
-        .catch((e) => res.status(409).json({ error: e.errors.message, e }));
+        .catch((e) => res.status(409).json({ error: 'email address already exists', e }));
 }));
 auth.post('/forgot', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const answer = store.forgot(req.body.email);
