@@ -7,6 +7,7 @@ export interface IUser extends Document {
     isAdmin: boolean;
     token: string;
     tokenDeathTime: number;
+    _doc: object; // crutch
 }
 
 const UserSchema: Schema = new Schema({

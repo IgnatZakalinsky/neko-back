@@ -26,7 +26,7 @@ auth.post('/login', async (req: Request, res: Response) => {
                 User.findByIdAndUpdate(user.id, {token, tokenDeathTime}, {new: true})
                     .then((newUser: IUser | null) => {
                         if (!newUser) res.status(500).json({error: 'not updated?'});
-                        else res.status(200).json({...newUser});
+                        else res.status(200).json({...newUser._doc});
                     })
                     .catch(e => res.status(500).json({error: 'some error', e}))
             }
