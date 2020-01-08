@@ -43,16 +43,18 @@ auth.post('/register', async (req: Request, res: Response) => {
         .catch((e: any) => res.status(400).json({error: 'email address already exists', e}));
 });
 auth.post('/forgot', async (req: Request, res: Response) => {
-
-    // const answer = store.forgot(req.body.email);
-
-    res.send(JSON.stringify({}));
+    User.findOne({email: req.body.email})
+        .then((user: IUser | null) => {
+            if (!user) res.status(404).json({error: 'Email address not found'});
+            else res.status(200).json({error: "sorry, I can't send new password on your email"});
+        })
+        .catch(e => res.status(500).json({error: 'some error', e}));
 });
 auth.post('/me', async (req: Request, res: Response) => {
 
     // const answer = store.me(req.body.token);
 
-    res.send(JSON.stringify({}));
+    res.send(JSON.stringify({error: 'test'}));
 });
 
 export default auth;
