@@ -40,7 +40,7 @@ auth.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 if (!newUser)
                     res.status(500).json({ error: 'not updated?' });
                 else
-                    res.status(200).json(Object.assign({}, newUser._doc));
+                    res.status(200).json(Object.assign(Object.assign({}, newUser._doc), { name: user.email }));
             })
                 .catch(e => res.status(500).json({ error: 'some error', e }));
         }
@@ -82,7 +82,7 @@ auth.post('/me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 if (!newUser)
                     res.status(500).json({ error: 'not updated?' });
                 else
-                    res.status(200).json(Object.assign({}, newUser._doc));
+                    res.status(200).json(Object.assign(Object.assign({}, newUser._doc), { name: user.email }));
             })
                 .catch(e => res.status(500).json({ error: 'some error', e }));
         }
