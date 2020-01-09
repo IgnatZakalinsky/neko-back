@@ -21,9 +21,12 @@ auth.post('/login', async (req: Request, res: Response) => {
             else {
                 const token = uuidv1();
                 const tokenDeathTime = req.body.rememberMe
-                    ? new Date().getTime() + (1000 * 60 * 60 * 24) // 1 day
-                    : new Date().getTime() + (1000 * 60 * 60 * 24 * 7); // 7 day
-                User.findByIdAndUpdate(user.id, {token, tokenDeathTime}, {new: true})
+                    ? new Date().getTime() + (1000 * 60 * 60 * 24 * 7) // 7 day
+                    : new Date().getTime() + (1000 * 60 * 60 * 24); // 1 day
+                User.findByIdAndUpdate(
+                    user.id,
+                    {token, tokenDeathTime, rememberMe: req.body.rememberMe},
+                    {new: true})
                     .then((newUser: IUser | null) => {
                         if (!newUser) res.status(500).json({error: 'not updated?'});
                         else res.status(200).json({...newUser._doc});
@@ -37,6 +40,7 @@ auth.post('/register', async (req: Request, res: Response) => {
     User.create({
         email: req.body.email,
         password: req.body.password,
+        rememberMe: false,
         isAdmin: false
     })
         .then((user: any) => res.status(201).json({addedUser: user, success: true}))
@@ -51,10 +55,24 @@ auth.post('/forgot', async (req: Request, res: Response) => {
         .catch(e => res.status(500).json({error: 'some error', e}));
 });
 auth.post('/me', async (req: Request, res: Response) => {
-
-    // const answer = store.me(req.body.token);
-
-    res.status(401).json({error: 'user not found'});
+    User.findOne({token: req.body.token})
+        .then((user: IUser | null) => {
+            if (!user || user.tokenDeathTime < new Date().getTime())
+                res.status(400).json({error: 'bad token!'});
+            else {
+                const token = uuidv1();
+                const tokenDeathTime = user.rememberMe
+                    ? new Date().getTime() + (1000 * 60 * 60 * 24 * 7) // 7 day
+                    : new Date().getTime() + (1000 * 60 * 60 * 24); // 1 day
+                User.findByIdAndUpdate(user.id, {token, tokenDeathTime}, {new: true})
+                    .then((newUser: IUser | null) => {
+                        if (!newUser) res.status(500).json({error: 'not updated?'});
+                        else res.status(200).json({...newUser._doc});
+                    })
+                    .catch(e => res.status(500).json({error: 'some error', e}))
+            }
+        })
+        .catch(e => res.status(500).json({error: 'some error', e}));
 });
 
 export default auth;

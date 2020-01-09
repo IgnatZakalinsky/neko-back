@@ -18,6 +18,10 @@ const UserSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
+    rememberMe: {
+        type: Boolean,
+        required: true
+    },
     isAdmin: {
         type: Boolean,
         required: true

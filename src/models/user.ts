@@ -2,11 +2,15 @@ import mongoose, {Schema, Document} from "mongoose";
 
 export interface IUser extends Document {
     _id: mongoose.Types.ObjectId;
+
     email: string;
     password: string;
+    rememberMe: boolean;
+
     isAdmin: boolean;
     token: string;
     tokenDeathTime: number;
+
     _doc: object; // crutch
 }
 
@@ -20,6 +24,11 @@ const UserSchema: Schema = new Schema({
         type: String,
         required: true
     },
+    rememberMe: {
+        type: Boolean,
+        required: true
+    },
+
     isAdmin: {
         type: Boolean,
         required: true

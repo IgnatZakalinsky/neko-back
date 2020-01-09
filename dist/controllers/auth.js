@@ -33,9 +33,9 @@ auth.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         else {
             const token = v1_1.default();
             const tokenDeathTime = req.body.rememberMe
-                ? new Date().getTime() + (1000 * 60 * 60 * 24) // 1 day
-                : new Date().getTime() + (1000 * 60 * 60 * 24 * 7); // 7 day
-            user_1.default.findByIdAndUpdate(user.id, { token, tokenDeathTime }, { new: true })
+                ? new Date().getTime() + (1000 * 60 * 60 * 24 * 7) // 7 day
+                : new Date().getTime() + (1000 * 60 * 60 * 24); // 1 day
+            user_1.default.findByIdAndUpdate(user.id, { token, tokenDeathTime, rememberMe: req.body.rememberMe }, { new: true })
                 .then((newUser) => {
                 if (!newUser)
                     res.status(500).json({ error: 'not updated?' });
@@ -51,6 +51,7 @@ auth.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function*
     user_1.default.create({
         email: req.body.email,
         password: req.body.password,
+        rememberMe: false,
         isAdmin: false
     })
         .then((user) => res.status(201).json({ addedUser: user, success: true }))
@@ -67,8 +68,26 @@ auth.post('/forgot', (req, res) => __awaiter(void 0, void 0, void 0, function* (
         .catch(e => res.status(500).json({ error: 'some error', e }));
 }));
 auth.post('/me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // const answer = store.me(req.body.token);
-    res.status(401).json({ error: 'user not found' });
+    user_1.default.findOne({ token: req.body.token })
+        .then((user) => {
+        if (!user || user.tokenDeathTime < new Date().getTime())
+            res.status(400).json({ error: 'bad token!' });
+        else {
+            const token = v1_1.default();
+            const tokenDeathTime = user.rememberMe
+                ? new Date().getTime() + (1000 * 60 * 60 * 24 * 7) // 7 day
+                : new Date().getTime() + (1000 * 60 * 60 * 24); // 1 day
+            user_1.default.findByIdAndUpdate(user.id, { token, tokenDeathTime }, { new: true })
+                .then((newUser) => {
+                if (!newUser)
+                    res.status(500).json({ error: 'not updated?' });
+                else
+                    res.status(200).json(Object.assign({}, newUser._doc));
+            })
+                .catch(e => res.status(500).json({ error: 'some error', e }));
+        }
+    })
+        .catch(e => res.status(500).json({ error: 'some error', e }));
 }));
 exports.default = auth;
 //# sourceMappingURL=auth.js.map
