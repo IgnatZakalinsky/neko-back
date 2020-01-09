@@ -16,7 +16,7 @@ const express_1 = __importDefault(require("express"));
 const v1_1 = __importDefault(require("uuid/v1"));
 const auth = express_1.default.Router();
 const user_1 = __importDefault(require("../models/user"));
-// const store = require('./../bd/fake');
+const validators_1 = require("../helpers/validators");
 auth.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.find()
         .then(users => res.status(200)
@@ -48,6 +48,10 @@ auth.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         .catch(e => res.status(500).json({ error: 'some error', e }));
 }));
 auth.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!validators_1.emailValidator(req.body.email))
+        res.status(400).json({ error: 'email not valid', email: req.body.email });
+    if (!validators_1.passwordValidator(req.body.password))
+        res.status(400).json({ error: 'password not valid', password: req.body.password });
     user_1.default.create({
         email: req.body.email,
         password: req.body.password,
