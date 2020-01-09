@@ -49,9 +49,13 @@ auth.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 }));
 auth.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!validators_1.emailValidator(req.body.email))
-        res.status(400).json({ error: 'email not valid', email: req.body.email });
+        res.status(400).json({
+            error: 'Email not valid! /^[\\w]{1}[\\w-\\.]*@[\\w-]+\\.[a-z]{2,7}$/i.test(\'x@x.xx\')',
+            email: req.body.email
+        });
     if (!validators_1.passwordValidator(req.body.password))
-        res.status(400).json({ error: 'password not valid', password: req.body.password });
+        res.status(400)
+            .json({ error: 'Password not valid! must be more than 7 characters...', password: req.body.password });
     user_1.default.create({
         email: req.body.email,
         password: req.body.password,
