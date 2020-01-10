@@ -9,6 +9,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const auth_1 = __importDefault(require("./controllers/auth"));
 const users_1 = __importDefault(require("./controllers/users"));
+const privateChats_1 = __importDefault(require("./controllers/privateChats"));
 const shop_1 = __importDefault(require("./controllers/shop"));
 const file_1 = __importDefault(require("./controllers/file"));
 const app = express_1.default();
@@ -34,6 +35,7 @@ app.use((req, res, next) => {
 // routes
 app.use('/auth', auth_1.default);
 app.use('/users', users_1.default);
+app.use('/private-chats', privateChats_1.default);
 app.use('/shop', shop_1.default);
 app.use('/file', file_1.default);
 //default

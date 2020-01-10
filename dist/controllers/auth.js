@@ -63,7 +63,7 @@ auth.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function*
         isAdmin: false
     })
         .then((user) => res.status(201).json({ addedUser: user, success: true }))
-        .catch((e) => res.status(400).json({ error: 'email address already exists', e }));
+        .catch(e => res.status(400).json({ error: 'email address already exists', e }));
 }));
 auth.post('/forgot', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.findOne({ email: req.body.email })
@@ -79,7 +79,7 @@ auth.post('/me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.findOne({ token: req.body.token })
         .then((user) => {
         if (!user || user.tokenDeathTime < new Date().getTime())
-            res.status(400).json({ error: 'bad token!' });
+            res.status(401).json({ error: 'bad token!' });
         else {
             const token = v1_1.default();
             const tokenDeathTime = user.rememberMe

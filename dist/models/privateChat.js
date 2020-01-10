@@ -8,35 +8,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const UserSchema = new mongoose_1.Schema({
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: {
-        type: String,
+const PrivateChat = new mongoose_1.Schema({
+    user1Id: {
+        type: mongoose_1.Schema.Types.ObjectId,
         required: true
     },
-    rememberMe: {
-        type: Boolean,
+    user2Id: {
+        type: mongoose_1.Schema.Types.ObjectId,
         required: true
     },
-    isAdmin: {
-        type: Boolean,
-        required: true
-    },
-    token: {
-        type: String,
-    },
-    tokenDeathTime: {
-        type: Number,
-    }
+    messages: [{
+            type: mongoose_1.Schema.Types.ObjectId,
+        }],
 }, {
     timestamps: {
         createdAt: 'created',
         updatedAt: 'updated',
     },
 });
-exports.default = mongoose_1.default.model('user', UserSchema);
-//# sourceMappingURL=user.js.map
+exports.default = mongoose_1.default.model('privateChat', PrivateChat);
+//# sourceMappingURL=privateChat.js.map

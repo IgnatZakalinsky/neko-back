@@ -60,9 +60,9 @@ auth.post('/register', async (req: Request, res: Response) => {
         rememberMe: false,
         isAdmin: false
     })
-        .then((user: any) => res.status(201).json({addedUser: user, success: true}))
+        .then((user: IUser) => res.status(201).json({addedUser: user, success: true}))
 
-        .catch((e: any) => res.status(400).json({error: 'email address already exists', e}));
+        .catch(e => res.status(400).json({error: 'email address already exists', e}));
 });
 
 auth.post('/forgot', async (req: Request, res: Response) => {
@@ -79,7 +79,7 @@ auth.post('/me', async (req: Request, res: Response) => {
     User.findOne({token: req.body.token})
         .then((user: IUser | null) => {
             if (!user || user.tokenDeathTime < new Date().getTime())
-                res.status(400).json({error: 'bad token!'});
+                res.status(401).json({error: 'bad token!'});
 
             else {
                 const token = uuidv1();

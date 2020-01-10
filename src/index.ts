@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import auth from './controllers/auth';
 import users from './controllers/users';
+import privateChats from './controllers/privateChats';
 import shop from './controllers/shop';
 import file from './controllers/file';
 
@@ -37,6 +38,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // routes
 app.use('/auth', auth);
 app.use('/users', users);
+app.use('/private-chats', privateChats);
 app.use('/shop', shop);
 app.use('/file', file);
 
