@@ -10,7 +10,7 @@ users.get('/', async (req: Request, res: Response) => {
             res.status(200)
                 .json({users}))
 
-        .catch(e => res.status(500).json({error: e.toString(), errorObject: e}));
+        .catch(e => res.status(500).json({error: e.toString(), errorObject: e, in: 'User.find'}));
 });
 
 export default users;

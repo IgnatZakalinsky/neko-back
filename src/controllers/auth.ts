@@ -11,7 +11,8 @@ auth.get('/', async (req: Request, res: Response) => {
             res.status(200)
                 .json({users, warnings: ['This endpoint will be deleted!!! Just for development!!!']}))
 
-        .catch(e => res.status(500).json({error: e.toString(), errorObject: e}));
+        .catch(e => res.status(500)
+            .json({error: e.toString(), errorObject: e, in: 'User.find'}));
 });
 
 auth.post('/login', async (req: Request, res: Response) => {
@@ -33,14 +34,15 @@ auth.post('/login', async (req: Request, res: Response) => {
                     {token, tokenDeathTime, rememberMe: req.body.rememberMe},
                     {new: true})
                     .then((newUser: IUser | null) => {
-                        if (!newUser) res.status(500).json({error: 'not updated?'});
+                        if (!newUser) res.status(500).json({error: 'not updated?', in: 'User.findOne'});
 
                         else res.status(200).json({...newUser._doc, name: user.email});
                     })
-                    .catch(e => res.status(500).json({error: 'some error', e}))
+                    .catch(e => res.status(500)
+                        .json({error: 'some error', errorObject: e, in: 'User.findByIdAndUpdate'}))
             }
         })
-        .catch(e => res.status(500).json({error: 'some error', e}));
+        .catch(e => res.status(500).json({error: 'some error', errorObject: e, in: 'User.findOne'}));
 });
 
 auth.post('/register', async (req: Request, res: Response) => {
@@ -62,7 +64,8 @@ auth.post('/register', async (req: Request, res: Response) => {
     })
         .then((user: IUser) => res.status(201).json({addedUser: user, success: true}))
 
-        .catch(e => res.status(400).json({error: 'email address already exists', e}));
+        .catch(e => res.status(400)
+            .json({error: 'email address already exists', errorObject: e, in: 'User.create'}));
 });
 
 auth.post('/forgot', async (req: Request, res: Response) => {
@@ -72,7 +75,7 @@ auth.post('/forgot', async (req: Request, res: Response) => {
 
             else res.status(200).json({error: "sorry, I can't send new password on your email"});
         })
-        .catch(e => res.status(500).json({error: 'some error', e}));
+        .catch(e => res.status(500).json({error: 'some error', errorObject: e, in: 'User.findOne'}));
 });
 
 auth.post('/me', async (req: Request, res: Response) => {
@@ -93,10 +96,11 @@ auth.post('/me', async (req: Request, res: Response) => {
 
                         else res.status(200).json({...newUser._doc, name: user.email});
                     })
-                    .catch(e => res.status(500).json({error: 'some error', e}))
+                    .catch(e => res.status(500)
+                        .json({error: 'some error', errorObject: e, in: 'User.findByIdAndUpdate'}))
             }
         })
-        .catch(e => res.status(500).json({error: 'some error', e}));
+        .catch(e => res.status(500).json({error: 'some error', errorObject: e, in: 'User.findOne'}));
 });
 
 export default auth;

@@ -20,7 +20,7 @@ users.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         .select('_id email')
         .then(users => res.status(200)
         .json({ users }))
-        .catch(e => res.status(500).json({ error: e.toString(), errorObject: e }));
+        .catch(e => res.status(500).json({ error: e.toString(), errorObject: e, in: 'User.find' }));
 }));
 exports.default = users;
 //# sourceMappingURL=users.js.map

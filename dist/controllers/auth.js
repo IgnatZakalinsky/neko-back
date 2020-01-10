@@ -21,7 +21,8 @@ auth.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.find({ isAdmin: false })
         .then(users => res.status(200)
         .json({ users, warnings: ['This endpoint will be deleted!!! Just for development!!!'] }))
-        .catch(e => res.status(500).json({ error: e.toString(), errorObject: e }));
+        .catch(e => res.status(500)
+        .json({ error: e.toString(), errorObject: e, in: 'User.find' }));
 }));
 auth.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.findOne({ email: req.body.email })
@@ -38,14 +39,15 @@ auth.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             user_1.default.findByIdAndUpdate(user.id, { token, tokenDeathTime, rememberMe: req.body.rememberMe }, { new: true })
                 .then((newUser) => {
                 if (!newUser)
-                    res.status(500).json({ error: 'not updated?' });
+                    res.status(500).json({ error: 'not updated?', in: 'User.findOne' });
                 else
                     res.status(200).json(Object.assign(Object.assign({}, newUser._doc), { name: user.email }));
             })
-                .catch(e => res.status(500).json({ error: 'some error', e }));
+                .catch(e => res.status(500)
+                .json({ error: 'some error', errorObject: e, in: 'User.findByIdAndUpdate' }));
         }
     })
-        .catch(e => res.status(500).json({ error: 'some error', e }));
+        .catch(e => res.status(500).json({ error: 'some error', errorObject: e, in: 'User.findOne' }));
 }));
 auth.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!validators_1.emailValidator(req.body.email))
@@ -64,7 +66,8 @@ auth.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function*
             isAdmin: false
         })
             .then((user) => res.status(201).json({ addedUser: user, success: true }))
-            .catch(e => res.status(400).json({ error: 'email address already exists', e }));
+            .catch(e => res.status(400)
+            .json({ error: 'email address already exists', errorObject: e, in: 'User.create' }));
 }));
 auth.post('/forgot', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.findOne({ email: req.body.email })
@@ -74,7 +77,7 @@ auth.post('/forgot', (req, res) => __awaiter(void 0, void 0, void 0, function* (
         else
             res.status(200).json({ error: "sorry, I can't send new password on your email" });
     })
-        .catch(e => res.status(500).json({ error: 'some error', e }));
+        .catch(e => res.status(500).json({ error: 'some error', errorObject: e, in: 'User.findOne' }));
 }));
 auth.post('/me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.findOne({ token: req.body.token })
@@ -93,10 +96,11 @@ auth.post('/me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 else
                     res.status(200).json(Object.assign(Object.assign({}, newUser._doc), { name: user.email }));
             })
-                .catch(e => res.status(500).json({ error: 'some error', e }));
+                .catch(e => res.status(500)
+                .json({ error: 'some error', errorObject: e, in: 'User.findByIdAndUpdate' }));
         }
     })
-        .catch(e => res.status(500).json({ error: 'some error', e }));
+        .catch(e => res.status(500).json({ error: 'some error', errorObject: e, in: 'User.findOne' }));
 }));
 exports.default = auth;
 //# sourceMappingURL=auth.js.map
