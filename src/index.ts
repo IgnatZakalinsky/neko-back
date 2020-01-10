@@ -3,6 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import auth from './controllers/auth';
+import users from './controllers/users';
 import shop from './controllers/shop';
 import file from './controllers/file';
 
@@ -17,9 +18,9 @@ mongoose.connect(
 app.use(cors());
 
 // parse application/json
-app.use(bodyParser.json({limit: '200mb'}));
+app.use(bodyParser.json({limit: '50mb'}));
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({limit: '200mb', extended: false}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
 
 // log middleware
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -35,6 +36,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 // routes
 app.use('/auth', auth);
+app.use('/users', users);
 app.use('/shop', shop);
 app.use('/file', file);
 

@@ -8,6 +8,7 @@ const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const auth_1 = __importDefault(require("./controllers/auth"));
+const users_1 = __importDefault(require("./controllers/users"));
 const shop_1 = __importDefault(require("./controllers/shop"));
 const file_1 = __importDefault(require("./controllers/file"));
 const app = express_1.default();
@@ -16,9 +17,9 @@ mongoose_1.default.connect('mongodb+srv://ai73aaa:1qazxcvBG@neko0-iwojt.mongodb.
     .catch(e => console.log('MongoDB connection error: ' + e));
 app.use(cors_1.default());
 // parse application/json
-app.use(body_parser_1.default.json({ limit: '200mb' }));
+app.use(body_parser_1.default.json({ limit: '50mb' }));
 // parse application/x-www-form-urlencoded
-app.use(body_parser_1.default.urlencoded({ limit: '200mb', extended: false }));
+app.use(body_parser_1.default.urlencoded({ limit: '50mb', extended: false }));
 // log middleware
 app.use((req, res, next) => {
     console.log('Time: ', new Date().toString());
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
 });
 // routes
 app.use('/auth', auth_1.default);
+app.use('/users', users_1.default);
 app.use('/shop', shop_1.default);
 app.use('/file', file_1.default);
 //default
