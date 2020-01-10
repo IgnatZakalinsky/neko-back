@@ -1,11 +1,8 @@
 import express, {Request, Response} from 'express';
-// import uuidv1 from "uuid/v1";
 
 const privateChats = express.Router();
 import PrivateChat, {IPrivateChat} from '../models/privateChat';
 import User, {IUser} from '../models/user';
-import {Schema} from "mongoose";
-// import {emailValidator, passwordValidator} from "../helpers/validators";
 
 privateChats.get('/', async (req: Request, res: Response) => {
     PrivateChat.find()
@@ -18,13 +15,30 @@ privateChats.get('/', async (req: Request, res: Response) => {
 });
 
 privateChats.post('/', async (req: Request, res: Response) => {
+    let find = false;
+
     User.findOne({token: req.body.token})
         .then((user: IUser | null) => {
             if (!user || user.tokenDeathTime < new Date().getTime())
                 res.status(401).json({error: 'bad token!'});
 
             else {
-                PrivateChat.create({
+                PrivateChat.findOne({user1Id: user._id, user2Id: req.body.userId})
+                    .then((pc: IPrivateChat | null) => {
+                        if (pc) {
+                            find = true;
+                            res.status(200).json({addedPrivateChat: pc, success: true, find: true});
+                        }
+                    });
+                PrivateChat.findOne({user1Id: req.body.userId, user2Id: user._id})
+                    .then((pc: IPrivateChat | null) => {
+                        if (pc) {
+                            find = true;
+                            res.status(200).json({addedPrivateChat: pc, success: true, find: true});
+                        }
+                    });
+
+                if (!find) PrivateChat.create({
                     user1Id: user._id,
                     user2Id: req.body.userId,
                     messages: []

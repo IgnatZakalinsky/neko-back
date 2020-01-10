@@ -13,11 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-// import uuidv1 from "uuid/v1";
 const privateChats = express_1.default.Router();
 const privateChat_1 = __importDefault(require("../models/privateChat"));
 const user_1 = __importDefault(require("../models/user"));
-// import {emailValidator, passwordValidator} from "../helpers/validators";
 privateChats.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     privateChat_1.default.find()
         // .select('_id email')
@@ -26,18 +24,34 @@ privateChats.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         .catch(e => res.status(500).json({ error: e.toString(), errorObject: e }));
 }));
 privateChats.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let find = false;
     user_1.default.findOne({ token: req.body.token })
         .then((user) => {
         if (!user || user.tokenDeathTime < new Date().getTime())
             res.status(401).json({ error: 'bad token!' });
         else {
-            privateChat_1.default.create({
-                user1Id: user._id,
-                user2Id: req.body.userId,
-                messages: []
-            })
-                .then((pc) => res.status(201).json({ addedPrivateChat: pc, success: true }))
-                .catch(e => res.status(500).json({ error: e.toString(), errorObject: e }));
+            privateChat_1.default.findOne({ user1Id: user._id, user2Id: req.body.userId })
+                .then((pc) => {
+                if (pc) {
+                    find = true;
+                    res.status(200).json({ addedPrivateChat: pc, success: true, find: true });
+                }
+            });
+            privateChat_1.default.findOne({ user1Id: req.body.userId, user2Id: user._id })
+                .then((pc) => {
+                if (pc) {
+                    find = true;
+                    res.status(200).json({ addedPrivateChat: pc, success: true, find: true });
+                }
+            });
+            if (!find)
+                privateChat_1.default.create({
+                    user1Id: user._id,
+                    user2Id: req.body.userId,
+                    messages: []
+                })
+                    .then((pc) => res.status(201).json({ addedPrivateChat: pc, success: true }))
+                    .catch(e => res.status(500).json({ error: e.toString(), errorObject: e }));
         }
     })
         .catch(e => res.status(500).json({ error: e.toString(), errorObject: e }));

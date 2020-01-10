@@ -6,7 +6,7 @@ import User, {IUser} from '../models/user'
 import {emailValidator, passwordValidator} from "../helpers/validators";
 
 auth.get('/', async (req: Request, res: Response) => {
-    User.find()
+    User.find({isAdmin: false})
         .then(users =>
             res.status(200)
                 .json({users, warnings: ['This endpoint will be deleted!!! Just for development!!!']}))
@@ -50,11 +50,11 @@ auth.post('/register', async (req: Request, res: Response) => {
                 error: 'Email not valid! /^[\\w]{1}[\\w-\\.]*@[\\w-]+\\.[a-z]{2,7}$/i.test(\'x@x.xx\')',
                 email: req.body.email
             });
-    if (!passwordValidator(req.body.password))
+    else if (!passwordValidator(req.body.password))
         res.status(400)
             .json({error: 'Password not valid! must be more than 7 characters...', password: req.body.password});
 
-    User.create({
+    else User.create({
         email: req.body.email,
         password: req.body.password,
         rememberMe: false,

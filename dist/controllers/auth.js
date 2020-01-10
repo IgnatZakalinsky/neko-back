@@ -18,7 +18,7 @@ const auth = express_1.default.Router();
 const user_1 = __importDefault(require("../models/user"));
 const validators_1 = require("../helpers/validators");
 auth.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    user_1.default.find()
+    user_1.default.find({ isAdmin: false })
         .then(users => res.status(200)
         .json({ users, warnings: ['This endpoint will be deleted!!! Just for development!!!'] }))
         .catch(e => res.status(500).json({ error: e.toString(), errorObject: e }));
@@ -53,17 +53,18 @@ auth.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function*
             error: 'Email not valid! /^[\\w]{1}[\\w-\\.]*@[\\w-]+\\.[a-z]{2,7}$/i.test(\'x@x.xx\')',
             email: req.body.email
         });
-    if (!validators_1.passwordValidator(req.body.password))
+    else if (!validators_1.passwordValidator(req.body.password))
         res.status(400)
             .json({ error: 'Password not valid! must be more than 7 characters...', password: req.body.password });
-    user_1.default.create({
-        email: req.body.email,
-        password: req.body.password,
-        rememberMe: false,
-        isAdmin: false
-    })
-        .then((user) => res.status(201).json({ addedUser: user, success: true }))
-        .catch(e => res.status(400).json({ error: 'email address already exists', e }));
+    else
+        user_1.default.create({
+            email: req.body.email,
+            password: req.body.password,
+            rememberMe: false,
+            isAdmin: false
+        })
+            .then((user) => res.status(201).json({ addedUser: user, success: true }))
+            .catch(e => res.status(400).json({ error: 'email address already exists', e }));
 }));
 auth.post('/forgot', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.findOne({ email: req.body.email })
