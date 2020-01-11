@@ -13,14 +13,15 @@ privateChats.get('/', async (req: Request, res: Response) => {
 
             else {
                 let chats: IPrivateChat[] = [];
+                const setChats = (pc: IPrivateChat[]) => chats = [...chats, ...pc];
 
                 PrivateChat.find({user1Id: user._id})
-                    .then(pc => chats = [...chats, ...pc])
+                    .then(pc => setChats(pc))
 
                     .catch(e => res.status(500)
                         .json({error: e.toString(), errorObject: e, in: 'PrivateChat.find'}));
                 PrivateChat.find({user2Id: user._id})
-                    .then(pc => chats = [...chats, ...pc])
+                    .then(pc => setChats(pc))
 
                     .catch(e => res.status(500)
                         .json({error: e.toString(), errorObject: e, in: 'PrivateChat.find'}));

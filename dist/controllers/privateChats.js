@@ -24,12 +24,13 @@ privateChats.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* 
             res.status(401).json({ error: 'bad token!' });
         else {
             let chats = [];
+            const setChats = (pc) => chats = [...chats, ...pc];
             privateChat_1.default.find({ user1Id: user._id })
-                .then(pc => chats = [...chats, ...pc])
+                .then(pc => setChats(pc))
                 .catch(e => res.status(500)
                 .json({ error: e.toString(), errorObject: e, in: 'PrivateChat.find' }));
             privateChat_1.default.find({ user2Id: user._id })
-                .then(pc => chats = [...chats, ...pc])
+                .then(pc => setChats(pc))
                 .catch(e => res.status(500)
                 .json({ error: e.toString(), errorObject: e, in: 'PrivateChat.find' }));
             res.status(200).json({ privateChats: chats });
