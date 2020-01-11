@@ -26,23 +26,25 @@ privateChats.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* 
             if (!user || user.tokenDeathTime < new Date().getTime())
                 res.status(401).json({ error: 'bad token!' });
             else {
-                let chats = [];
-                const setChats = (pc) => chats = [...chats, ...pc];
-                privateChat_1.default.find({ user1Id: user._id })
+                // let chats: IPrivateChat[] = [];
+                // const setChats = (pc: IPrivateChat[]) => chats = [...chats, ...pc];
+                privateChat_1.default.find({ $or: [{ user1Id: user._id }, { user2Id: user._id }] })
                     .then(pc => {
                     console.log(pc);
-                    setChats(pc);
+                    // setChats(pc)
+                    res.status(200).json({ privateChats: pc });
                 })
                     .catch(e => res.status(500)
                     .json({ error: e.toString(), errorObject: e, in: 'PrivateChat.find' }));
-                privateChat_1.default.find({ user2Id: user._id })
-                    .then(pc => {
-                    console.log(pc);
-                    setChats(pc);
-                })
-                    .catch(e => res.status(500)
-                    .json({ error: e.toString(), errorObject: e, in: 'PrivateChat.find' }));
-                res.status(200).json({ privateChats: chats });
+                // PrivateChat.find({user2Id: user._id})
+                //     .then(pc => {
+                //         console.log(pc)
+                //         setChats(pc)
+                //     })
+                //
+                //     .catch(e => res.status(500)
+                //         .json({error: e.toString(), errorObject: e, in: 'PrivateChat.find'}));
+                // res.status(200).json({privateChats: chats})
             }
         })
             .catch(e => res.status(500).json({ error: e.toString(), errorObject: e, in: 'User.findOne' }));
