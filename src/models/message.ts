@@ -5,7 +5,7 @@ export interface IMessage extends Document {
     chatId: mongoose.Types.ObjectId;
     authorId: mongoose.Types.ObjectId;
 
-    message: string
+    message: string;
 
     created: Date;
     updated: Date;
@@ -25,6 +25,7 @@ const Message: Schema = new Schema(
         },
         messages: {
             type: String,
+            required: true
         },
 
     },

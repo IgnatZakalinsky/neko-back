@@ -119,6 +119,7 @@ privateChats.post('/messages', (req, res) => __awaiter(void 0, void 0, void 0, f
                 else if (!user._id.equals(pc.user1Id) && !user._id.equals(pc.user2Id))
                     res.status(401).json({ error: 'bad userId!' });
                 else {
+                    console.log('!!!message: ', req.body.message);
                     message_1.default.create({
                         chatId: pc._id,
                         authorId: user._id,

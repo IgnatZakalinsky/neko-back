@@ -124,6 +124,7 @@ privateChats.post('/messages', async (req: Request, res: Response) => {
                             res.status(401).json({error: 'bad userId!'});
 
                         else {
+                            console.log('!!!message: ', req.body.message)
                             Message.create({
                                 chatId: pc._id,
                                 authorId: user._id,
