@@ -49,15 +49,19 @@ privateChats.get('/messages', async (req: Request, res: Response) => {
                     .then(pc => {
                         if (!pc) res.status(400).json({error: 'bad chatId!'});
 
-                        else if (user._id !== pc.user1Id && user._id !== pc.user2Id)
-                            res.status(401).json({error: 'bad userId!'});
-
                         else {
-                            Message.find({'_id': {$in: pc.messages}})
-                                .then(m => res.status(200).json({messages: m}))
+                            console.log(user, pc)
 
-                                .catch(e => res.status(500)
-                                    .json({error: e.toString(), errorObject: e, in: 'Message.find'}));
+                            if (user._id !== pc.user1Id && user._id !== pc.user2Id)
+                                res.status(401).json({error: 'bad userId!'});
+
+                            else {
+                                Message.find({'_id': {$in: pc.messages}})
+                                    .then(m => res.status(200).json({messages: m}))
+
+                                    .catch(e => res.status(500)
+                                        .json({error: e.toString(), errorObject: e, in: 'Message.find'}));
+                            }
                         }
                     })
 
