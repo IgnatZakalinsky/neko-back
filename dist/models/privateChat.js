@@ -26,5 +26,5 @@ const PrivateChat = new mongoose_1.Schema({
         updatedAt: 'updated',
     },
 });
-exports.default = mongoose_1.default.model('privateChat', PrivateChat);
+exports.default = mongoose_1.default.model('private-chat', PrivateChat);
 //# sourceMappingURL=privateChat.js.map

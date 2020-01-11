@@ -36,4 +36,4 @@ const PrivateChat: Schema = new Schema(
     }
 );
 
-export default mongoose.model<IPrivateChat>('privateChat', PrivateChat);
+export default mongoose.model<IPrivateChat>('private-chat', PrivateChat);
