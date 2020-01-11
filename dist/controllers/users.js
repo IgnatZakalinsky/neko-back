@@ -18,8 +18,7 @@ const user_1 = __importDefault(require("../models/user"));
 users.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.find()
         .select('_id email')
-        .then(users => res.status(200)
-        .json({ users }))
+        .then(users => res.status(200).json({ users }))
         .catch(e => res.status(500).json({ error: e.toString(), errorObject: e, in: 'User.find' }));
 }));
 exports.default = users;

@@ -30,21 +30,15 @@ privateChats.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 // const setChats = (pc: IPrivateChat[]) => chats = [...chats, ...pc];
                 privateChat_1.default.find({ $or: [{ user1Id: user._id }, { user2Id: user._id }] })
                     .then(pc => {
-                    console.log(pc);
-                    // setChats(pc)
-                    res.status(200).json({ privateChats: pc });
+                    const ids = pc.reduce((acc, ipc) => [...acc, ipc.user1Id, ipc.user2Id], []);
+                    user_1.default.find({ '_id': { $in: ids } })
+                        .select('_id email')
+                        .then(users => res.status(200).json({ privateChats: pc, users }))
+                        .catch(e => res.status(500)
+                        .json({ error: e.toString(), errorObject: e, in: 'User.find' }));
                 })
                     .catch(e => res.status(500)
                     .json({ error: e.toString(), errorObject: e, in: 'PrivateChat.find' }));
-                // PrivateChat.find({user2Id: user._id})
-                //     .then(pc => {
-                //         console.log(pc)
-                //         setChats(pc)
-                //     })
-                //
-                //     .catch(e => res.status(500)
-                //         .json({error: e.toString(), errorObject: e, in: 'PrivateChat.find'}));
-                // res.status(200).json({privateChats: chats})
             }
         })
             .catch(e => res.status(500).json({ error: e.toString(), errorObject: e, in: 'User.findOne' }));

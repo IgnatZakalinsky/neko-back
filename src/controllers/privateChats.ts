@@ -4,6 +4,7 @@ const privateChats = express.Router();
 import User, {IUser} from '../models/user';
 import PrivateChat, {IPrivateChat} from '../models/privateChat';
 import Message, {IMessage} from '../models/message';
+import {Types} from "mongoose";
 
 privateChats.get('/', async (req: Request, res: Response) => {
     if (!req.query.token) res.status(401).json({error: 'bad token!'});
@@ -19,23 +20,20 @@ privateChats.get('/', async (req: Request, res: Response) => {
 
                 PrivateChat.find({$or: [{user1Id: user._id}, {user2Id: user._id}]})
                     .then(pc => {
-                        console.log(pc)
-                        // setChats(pc)
-                        res.status(200).json({privateChats: pc})
+                        const ids: Types.ObjectId[] =
+                            pc.reduce<Types.ObjectId[]>((acc, ipc) => [...acc, ipc.user1Id, ipc.user2Id], []);
+
+                        User.find({'_id': {$in: ids}})
+                            .select('_id email')
+                            .then(users =>
+                                res.status(200).json({privateChats: pc, users}))
+
+                            .catch(e => res.status(500)
+                                .json({error: e.toString(), errorObject: e, in: 'User.find'}));
                     })
 
                     .catch(e => res.status(500)
                         .json({error: e.toString(), errorObject: e, in: 'PrivateChat.find'}));
-                // PrivateChat.find({user2Id: user._id})
-                //     .then(pc => {
-                //         console.log(pc)
-                //         setChats(pc)
-                //     })
-                //
-                //     .catch(e => res.status(500)
-                //         .json({error: e.toString(), errorObject: e, in: 'PrivateChat.find'}));
-
-                // res.status(200).json({privateChats: chats})
             }
         })
         .catch(e => res.status(500).json({error: e.toString(), errorObject: e, in: 'User.findOne'}));
