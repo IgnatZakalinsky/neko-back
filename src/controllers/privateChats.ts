@@ -50,7 +50,7 @@ privateChats.get('/messages', async (req: Request, res: Response) => {
                         if (!pc) res.status(400).json({error: 'bad chatId!'});
 
                         else {
-                            console.log(user, pc)
+                            console.log(user, pc, (user._id !== pc.user1Id && user._id !== pc.user2Id))
 
                             if (user._id !== pc.user1Id && user._id !== pc.user2Id)
                                 res.status(401).json({error: 'bad userId!'});
