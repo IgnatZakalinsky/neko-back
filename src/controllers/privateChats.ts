@@ -6,7 +6,9 @@ import PrivateChat, {IPrivateChat} from '../models/privateChat';
 import Message, {IMessage} from '../models/message';
 
 privateChats.get('/', async (req: Request, res: Response) => {
-    User.findOne({token: req.query.token})
+    if (!req.query.token) res.status(401).json({error: 'bad token!'});
+
+    else User.findOne({token: req.query.token})
         .then((user: IUser | null) => {
             if (!user || user.tokenDeathTime < new Date().getTime())
                 res.status(401).json({error: 'bad token!'});
@@ -16,12 +18,18 @@ privateChats.get('/', async (req: Request, res: Response) => {
                 const setChats = (pc: IPrivateChat[]) => chats = [...chats, ...pc];
 
                 PrivateChat.find({user1Id: user._id})
-                    .then(pc => setChats(pc))
+                    .then(pc => {
+                        console.log(pc)
+                        setChats(pc)
+                    })
 
                     .catch(e => res.status(500)
                         .json({error: e.toString(), errorObject: e, in: 'PrivateChat.find'}));
                 PrivateChat.find({user2Id: user._id})
-                    .then(pc => setChats(pc))
+                    .then(pc => {
+                        console.log(pc)
+                        setChats(pc)
+                    })
 
                     .catch(e => res.status(500)
                         .json({error: e.toString(), errorObject: e, in: 'PrivateChat.find'}));

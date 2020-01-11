@@ -18,25 +18,34 @@ const user_1 = __importDefault(require("../models/user"));
 const privateChat_1 = __importDefault(require("../models/privateChat"));
 const message_1 = __importDefault(require("../models/message"));
 privateChats.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    user_1.default.findOne({ token: req.query.token })
-        .then((user) => {
-        if (!user || user.tokenDeathTime < new Date().getTime())
-            res.status(401).json({ error: 'bad token!' });
-        else {
-            let chats = [];
-            const setChats = (pc) => chats = [...chats, ...pc];
-            privateChat_1.default.find({ user1Id: user._id })
-                .then(pc => setChats(pc))
-                .catch(e => res.status(500)
-                .json({ error: e.toString(), errorObject: e, in: 'PrivateChat.find' }));
-            privateChat_1.default.find({ user2Id: user._id })
-                .then(pc => setChats(pc))
-                .catch(e => res.status(500)
-                .json({ error: e.toString(), errorObject: e, in: 'PrivateChat.find' }));
-            res.status(200).json({ privateChats: chats });
-        }
-    })
-        .catch(e => res.status(500).json({ error: e.toString(), errorObject: e, in: 'User.findOne' }));
+    if (!req.query.token)
+        res.status(401).json({ error: 'bad token!' });
+    else
+        user_1.default.findOne({ token: req.query.token })
+            .then((user) => {
+            if (!user || user.tokenDeathTime < new Date().getTime())
+                res.status(401).json({ error: 'bad token!' });
+            else {
+                let chats = [];
+                const setChats = (pc) => chats = [...chats, ...pc];
+                privateChat_1.default.find({ user1Id: user._id })
+                    .then(pc => {
+                    console.log(pc);
+                    setChats(pc);
+                })
+                    .catch(e => res.status(500)
+                    .json({ error: e.toString(), errorObject: e, in: 'PrivateChat.find' }));
+                privateChat_1.default.find({ user2Id: user._id })
+                    .then(pc => {
+                    console.log(pc);
+                    setChats(pc);
+                })
+                    .catch(e => res.status(500)
+                    .json({ error: e.toString(), errorObject: e, in: 'PrivateChat.find' }));
+                res.status(200).json({ privateChats: chats });
+            }
+        })
+            .catch(e => res.status(500).json({ error: e.toString(), errorObject: e, in: 'User.findOne' }));
 }));
 privateChats.get('/messages', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.findOne({ token: req.query.token })
