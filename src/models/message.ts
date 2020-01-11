@@ -23,7 +23,7 @@ const Message: Schema = new Schema(
             type: Schema.Types.ObjectId,
             required: true
         },
-        messages: {
+        message: {
             type: String,
             required: true
         },
