@@ -1,58 +1,25 @@
-import express, {Request, Response, NextFunction} from 'express';
-import cors from 'cors';
-import bodyParser from 'body-parser';
+import express from 'express';
 import mongoose from 'mongoose';
-import auth from './controllers/auth';
-import users from './controllers/users';
-import privateChats from './controllers/privateChats';
-import shop from './controllers/shop';
-import file from './controllers/file';
+import {config} from "./neko-1-config";
+
+const {MongoDBUris, appUse, routes} = config;
 
 const app = express();
-mongoose.connect(
-    'mongodb+srv://ai73aaa:1qazxcvBG@neko0-iwojt.mongodb.net/nekobd?retryWrites=true&w=majority',
-    {useNewUrlParser: true, useUnifiedTopology: true}
-)
-    .then(() => console.log('MongoDB connected successfully'))
+
+appUse(app);
+routes(app);
+
+mongoose.connect(MongoDBUris, {useNewUrlParser: true, useUnifiedTopology: true})
+    .then(() => {
+        console.log('MongoDB connected successfully');
+
+        //start
+        app.listen(process.env.PORT, () => {
+            console.log('Neko-back listening on port: ' + process.env.PORT);
+        });
+        console.log('start...');
+    })
     .catch(e => console.log('MongoDB connection error: ' + e));
-
-app.use(cors());
-
-// parse application/json
-app.use(bodyParser.json({limit: '50mb'}));
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
-
-// log middleware
-app.use((req: Request, res: Response, next: NextFunction) => {
-    console.log('Time: ', new Date().toString());
-    console.log(req.method, req.url, 'params:', req.params);
-    console.log('query:', req.query);
-    console.log('body:', req.body);
-    console.log('cookies:', req.cookies);
-    // console.log('headers:', req.headers);
-    // console.log('rawHeaders:', req.rawHeaders);
-    next();
-});
-
-// routes
-app.use('/auth', auth);
-app.use('/users', users);
-app.use('/private-chats', privateChats);
-app.use('/shop', shop);
-app.use('/file', file);
-
-//default
-app.use((req: Request, res: Response) => {
-    console.log('bad url: ', req);
-    res.send(404);
-});
-
-//start
-app.listen(process.env.PORT, () => {
-    console.log('Neko-back app listening on port: ' + process.env.PORT);
-});
-console.log('start...');
 
 process.on('unhandledRejection', (reason, p) => {
     console.log('unhandledRejection: ', reason, p);

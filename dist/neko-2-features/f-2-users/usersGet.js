@@ -12,14 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const users = express_1.default.Router();
-const user_1 = __importDefault(require("../models/user"));
-users.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const user_1 = __importDefault(require("../f-1-auth/a-2-models/user"));
+exports.usersGet = (path, users) => users.get(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.find()
         .select('_id email')
         .then(users => res.status(200).json({ users }))
-        .catch(e => res.status(500).json({ error: e.toString(), errorObject: e, in: 'User.find' }));
+        .catch(e => res.status(500)
+        .json({ error: 'some error', errorObject: e, in: 'usersGet/User.find' }));
 }));
-exports.default = users;
-//# sourceMappingURL=users.js.map
+//# sourceMappingURL=usersGet.js.map
