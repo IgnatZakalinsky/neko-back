@@ -1,5 +1,5 @@
 import {Request, Response, Router} from "express";
-import User from "../a-2-models/user"
+import User from "../a-2-models/user";
 
 export const authGet = (path: string, auth: Router) =>
 
