@@ -1,7 +1,7 @@
 import express from "express";
 import {authGet} from "./a-1-controllers/authGet";
 import {authLoginPost} from "./a-1-controllers/authLoginPost";
-import { authRegisterPost } from "./a-1-controllers/authRegisterPost";
+import {authRegisterPost} from "./a-1-controllers/authRegisterPost";
 import {authForgotPost} from "./a-1-controllers/authForgotPost";
 import {authMePost} from "./a-1-controllers/authMePost";
 
