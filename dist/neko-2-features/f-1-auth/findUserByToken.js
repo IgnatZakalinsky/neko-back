@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("./a-2-models/user"));
-exports.findUserByToken = (req, res, f, inR) => {
-    user_1.default.findOne({ token: req.body.token })
+exports.findUserByToken = (req, res, token, f, inR) => {
+    user_1.default.findOne({ token })
         .exec()
         .then((user) => {
         if (!user || user.tokenDeathTime < new Date().getTime())

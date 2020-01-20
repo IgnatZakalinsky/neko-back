@@ -1,8 +1,8 @@
 import {Request, Response} from "express";
 import User, {IUser} from "./a-2-models/user";
 
-export const findUserByToken = (req: Request, res: Response, f: (user: IUser) => void, inR: string) => {
-    User.findOne({token: req.body.token})
+export const findUserByToken = (req: Request, res: Response, token: string, f: (user: IUser) => void, inR: string) => {
+    User.findOne({token})
         .exec()
         .then((user: IUser | null) => {
             if (!user || user.tokenDeathTime < new Date().getTime())

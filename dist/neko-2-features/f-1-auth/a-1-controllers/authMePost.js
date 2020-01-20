@@ -33,6 +33,6 @@ exports.authMePost = (path, auth) => auth.post('/me', (req, res) => __awaiter(vo
             .catch(e => res.status(500)
             .json({ error: 'some error', errorObject: e, in: 'authMePost/User.findByIdAndUpdate' }));
     };
-    findUserByToken_1.findUserByToken(req, res, f, 'authMePost');
+    findUserByToken_1.findUserByToken(req, res, req.body.token, f, 'authMePost');
 }));
 //# sourceMappingURL=authMePost.js.map

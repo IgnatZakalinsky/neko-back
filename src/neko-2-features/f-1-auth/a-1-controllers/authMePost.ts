@@ -25,5 +25,5 @@ export const authMePost = (path: string, auth: Router) =>
                     .json({error: 'some error', errorObject: e, in: 'authMePost/User.findByIdAndUpdate'}))
         };
 
-        findUserByToken(req, res, f, 'authMePost');
+        findUserByToken(req, res, req.body.token, f, 'authMePost');
     });
