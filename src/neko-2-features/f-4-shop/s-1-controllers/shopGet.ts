@@ -5,7 +5,7 @@ export const shopGet = (path: string, shop: Router) =>
 
     shop.get(path, async (req: Request, res: Response) => {
         const page = +req.query.page || 1;
-        const count = +req.query.count || 7;
+        const pageCount = +req.query.pageCount || 7;
 
         // await Product.create({productName: 'fakeProduct', price: 2000}); // seed
 
@@ -16,12 +16,12 @@ export const shopGet = (path: string, shop: Router) =>
             Product.find({
 
             })
-                .skip(count * (page - 1))
-                .limit(count)
+                .skip(pageCount * (page - 1))
+                .limit(pageCount)
                 .lean()
                 .exec()
                 .then(products =>
-                    res.status(200).json({products, page, count, productTotalCount}))
+                    res.status(200).json({products, page, pageCount, productTotalCount}))
 
                 .catch(e => res.status(500)
                     .json({error: 'some error', errorObject: e, in: 'shopGet/Product.find'}))

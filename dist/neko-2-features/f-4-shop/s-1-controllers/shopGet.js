@@ -15,16 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const product_1 = __importDefault(require("../s-2-models/product"));
 exports.shopGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const page = +req.query.page || 1;
-    const count = +req.query.count || 7;
+    const pageCount = +req.query.pageCount || 7;
     // await Product.create({productName: 'fakeProduct', price: 2000}); // seed
     product_1.default.count({}).exec().then(productTotalCount => 
     // min/max price ; productName ; sortProducts
     product_1.default.find({})
-        .skip(count * (page - 1))
-        .limit(count)
+        .skip(pageCount * (page - 1))
+        .limit(pageCount)
         .lean()
         .exec()
-        .then(products => res.status(200).json({ products, page, count, productTotalCount }))
+        .then(products => res.status(200).json({ products, page, pageCount, productTotalCount }))
         .catch(e => res.status(500)
         .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.find' })))
         .catch(e => res.status(500)
