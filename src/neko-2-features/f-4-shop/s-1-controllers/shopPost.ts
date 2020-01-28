@@ -3,7 +3,7 @@ import Product, {IProduct} from "../s-2-models/product";
 
 export const shopPost = (path: string, shop: Router) =>
 
-    shop.get(path, async (req: Request, res: Response) => {
+    shop.post(path, async (req: Request, res: Response) => {
         if (!req.body.product) res.status(400).json({error: `No product in body!`});
 
         else if (!req.body.product.productName || (req.body.product.productName + '').length < 6)

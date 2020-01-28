@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const product_1 = __importDefault(require("../s-2-models/product"));
-exports.shopPost = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.shopPost = (path, shop) => shop.post(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.body.product)
         res.status(400).json({ error: `No product in body!` });
     else if (!req.body.product.productName || (req.body.product.productName + '').length < 6)
