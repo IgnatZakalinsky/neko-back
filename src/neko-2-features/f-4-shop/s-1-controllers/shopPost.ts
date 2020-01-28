@@ -4,22 +4,23 @@ import Product, {IProduct} from "../s-2-models/product";
 export const shopPost = (path: string, shop: Router) =>
 
     shop.get(path, async (req: Request, res: Response) => {
+        if (!req.body.product) res.status(400).json({error: `No product in body!`});
 
-        if (!req.body.productName || (req.body.productName + '').length < 6)
+        else if (!req.body.product.productName || (req.body.product.productName + '').length < 6)
             res.status(400)
                 .json({
-                    error: `Product name [${req.body.productName}] not valid! must be more than 5 characters...`,
-                    productName: req.body.productName
+                    error: `Product name [${req.body.product.productName}] not valid! must be more than 5 characters...`,
+                    productName: req.body.product.productName
                 });
 
-        else if (!Number(req.body.price) || Number(req.body.price) <= 0)
+        else if (!Number(req.body.product.price) || Number(req.body.product.price) <= 0)
             res.status(400)
                 .json({
-                    error: `Product price [${req.body.price}] not valid! must be more than 0...`,
-                    price: req.body.price
+                    error: `Product price [${req.body.product.price}] not valid! must be more than 0...`,
+                    price: req.body.product.price
                 });
 
-        Product.create({productName: req.body.productName, price: +req.body.price})
+        else Product.create({productName: req.body.product.productName, price: +req.body.product.price})
             .then((product: IProduct) => res.status(201).json({addedProduct: product, success: true}))
 
             .catch(e => res.status(400)

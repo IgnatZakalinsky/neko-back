@@ -14,21 +14,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const product_1 = __importDefault(require("../s-2-models/product"));
 exports.shopPost = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!req.body.productName || (req.body.productName + '').length < 6)
+    if (!req.body.product)
+        res.status(400).json({ error: `No product in body!` });
+    else if (!req.body.product.productName || (req.body.product.productName + '').length < 6)
         res.status(400)
             .json({
-            error: `Product name [${req.body.productName}] not valid! must be more than 5 characters...`,
-            productName: req.body.productName
+            error: `Product name [${req.body.product.productName}] not valid! must be more than 5 characters...`,
+            productName: req.body.product.productName
         });
-    else if (!Number(req.body.price) || Number(req.body.price) <= 0)
+    else if (!Number(req.body.product.price) || Number(req.body.product.price) <= 0)
         res.status(400)
             .json({
-            error: `Product price [${req.body.price}] not valid! must be more than 0...`,
-            price: req.body.price
+            error: `Product price [${req.body.product.price}] not valid! must be more than 0...`,
+            price: req.body.product.price
         });
-    product_1.default.create({ productName: req.body.productName, price: +req.body.price })
-        .then((product) => res.status(201).json({ addedProduct: product, success: true }))
-        .catch(e => res.status(400)
-        .json({ error: 'some error', errorObject: e, in: 'shopPost/Product.create' }));
+    else
+        product_1.default.create({ productName: req.body.product.productName, price: +req.body.product.price })
+            .then((product) => res.status(201).json({ addedProduct: product, success: true }))
+            .catch(e => res.status(400)
+            .json({ error: 'some error', errorObject: e, in: 'shopPost/Product.create' }));
 }));
 //# sourceMappingURL=shopPost.js.map
