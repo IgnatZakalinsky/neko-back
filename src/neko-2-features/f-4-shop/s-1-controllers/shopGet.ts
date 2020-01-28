@@ -7,7 +7,7 @@ export const shopGet = (path: string, shop: Router) =>
         const page = req.query.page || 1;
         const count = req.query.count || 7;
 
-        await Product.create({productName: 'fakeProduct', price: 2000});
+        // await Product.create({productName: 'fakeProduct', price: 2000});
 
         Product.count({}).exec().then(productTotalCount =>
 
