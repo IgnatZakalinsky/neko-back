@@ -14,8 +14,8 @@ export const shopGet = (path: string, shop: Router) =>
             Product.find({
 
             })
-                .skip(req.query.count * (req.query.page - 1))
-                .limit(req.query.count)
+                .skip(count * (page - 1))
+                .limit(count)
                 .lean()
                 .exec()
                 .then(products =>

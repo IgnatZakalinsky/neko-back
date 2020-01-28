@@ -18,8 +18,8 @@ exports.shopGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0,
     const count = +req.query.count || 7;
     // await Product.create({productName: 'fakeProduct', price: 2000});
     product_1.default.count({}).exec().then(productTotalCount => product_1.default.find({})
-        .skip(req.query.count * (req.query.page - 1))
-        .limit(req.query.count)
+        .skip(count * (page - 1))
+        .limit(count)
         .lean()
         .exec()
         .then(products => res.status(200).json({ products, page, count, productTotalCount }))
