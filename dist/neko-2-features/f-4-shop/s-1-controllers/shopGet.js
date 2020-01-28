@@ -16,8 +16,10 @@ const product_1 = __importDefault(require("../s-2-models/product"));
 exports.shopGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const page = +req.query.page || 1;
     const count = +req.query.count || 7;
-    // await Product.create({productName: 'fakeProduct', price: 2000});
-    product_1.default.count({}).exec().then(productTotalCount => product_1.default.find({})
+    // await Product.create({productName: 'fakeProduct', price: 2000}); // seed
+    product_1.default.count({}).exec().then(productTotalCount => 
+    // min/max price ; productName ; sortProducts
+    product_1.default.find({})
         .skip(count * (page - 1))
         .limit(count)
         .lean()
