@@ -16,6 +16,7 @@ const user_1 = __importDefault(require("../f-1-auth/a-2-models/user"));
 exports.usersGet = (path, users) => users.get(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.find()
         .select('_id email')
+        .exec()
         .then(users => res.status(200).json({ users }))
         .catch(e => res.status(500)
         .json({ error: 'some error', errorObject: e, in: 'usersGet/User.find' }));

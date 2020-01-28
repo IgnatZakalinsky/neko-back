@@ -6,6 +6,7 @@ export const usersGet = (path: string, users: Router) =>
     users.get(path, async (req: Request, res: Response) => {
         User.find()
             .select('_id email')
+            .exec()
             .then(users =>
                 res.status(200).json({users}))
 
