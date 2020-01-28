@@ -14,8 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const product_1 = __importDefault(require("../s-2-models/product"));
 exports.shopGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const page = req.query.page || 1;
-    const count = req.query.count || 7;
+    const page = +req.query.page || 1;
+    const count = +req.query.count || 7;
     // await Product.create({productName: 'fakeProduct', price: 2000});
     product_1.default.count({}).exec().then(productTotalCount => product_1.default.find({})
         .skip(req.query.count * (req.query.page - 1))

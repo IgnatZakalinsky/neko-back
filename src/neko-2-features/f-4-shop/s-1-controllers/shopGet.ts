@@ -4,8 +4,8 @@ import Product from "../s-2-models/product";
 export const shopGet = (path: string, shop: Router) =>
 
     shop.get(path, async (req: Request, res: Response) => {
-        const page = req.query.page || 1;
-        const count = req.query.count || 7;
+        const page = +req.query.page || 1;
+        const count = +req.query.count || 7;
 
         // await Product.create({productName: 'fakeProduct', price: 2000});
 
