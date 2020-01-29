@@ -14,19 +14,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const product_1 = __importDefault(require("../s-2-models/product"));
 exports.shopGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const page = +req.query.page || 1;
+    let page = +req.query.page || 1;
     const pageCount = +req.query.pageCount || 7;
     // await Product.create({productName: 'fakeProduct', price: 2000}); // seed
-    product_1.default.count({}).exec().then(productTotalCount => 
-    // min/max price ; productName ; sortProducts
-    product_1.default.find({})
-        .skip(pageCount * (page - 1))
-        .limit(pageCount)
-        .lean()
-        .exec()
-        .then(products => res.status(200).json({ products, page, pageCount, productTotalCount }))
-        .catch(e => res.status(500)
-        .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.find' })))
+    product_1.default.count({}).exec().then(productTotalCount => {
+        if (pageCount * (page - 1) > productTotalCount)
+            page = 1;
+        // min/max price ; productName ; sortProducts
+        product_1.default.find({})
+            .skip(pageCount * (page - 1))
+            .limit(pageCount)
+            .lean()
+            .exec()
+            .then(products => res.status(200).json({ products, page, pageCount, productTotalCount }))
+            .catch(e => res.status(500)
+            .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.find' }));
+    })
         .catch(e => res.status(500)
         .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.count' }));
 }));
