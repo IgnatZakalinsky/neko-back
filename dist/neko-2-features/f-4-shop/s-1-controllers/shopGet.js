@@ -20,7 +20,7 @@ exports.shopGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0,
     product_1.default.count({}).exec().then(productTotalCount => {
         if (pageCount * (page - 1) > productTotalCount)
             page = 1;
-        // min/max price ; productName ; sortProducts
+        // min/max price ; sortProducts
         product_1.default.find({ productName: new RegExp(req.query.productName) })
             .skip(pageCount * (page - 1))
             .limit(pageCount)
@@ -28,7 +28,9 @@ exports.shopGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0,
             .exec()
             .then(products => res.status(200)
             .json({
-            products: products.map(p => (Object.assign(Object.assign({}, p), { id: p._id }))), page, pageCount, productTotalCount
+            products: products.map(p => (Object.assign(Object.assign({}, p), { id: p._id }))),
+            page, pageCount, productTotalCount,
+            minPrice: 1000, maxPrice: 9000,
         }))
             .catch(e => res.status(500)
             .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.find' }));

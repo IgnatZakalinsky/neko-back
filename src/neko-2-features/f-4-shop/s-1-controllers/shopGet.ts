@@ -12,7 +12,9 @@ export const shopGet = (path: string, shop: Router) =>
         Product.count({}).exec().then(productTotalCount => {
             if (pageCount * (page - 1) > productTotalCount) page = 1;
 
-            // min/max price ; productName ; sortProducts
+            // min/max price ; sortProducts
+
+
 
             Product.find({productName: new RegExp(req.query.productName)})
                 .skip(pageCount * (page - 1))
@@ -22,7 +24,9 @@ export const shopGet = (path: string, shop: Router) =>
                 .then(products =>
                     res.status(200)
                         .json({
-                            products: products.map(p => ({...p, id: p._id})), page, pageCount, productTotalCount
+                            products: products.map(p => ({...p, id: p._id})),
+                            page, pageCount, productTotalCount,
+                            minPrice: 1000, maxPrice: 9000,
                         }))
 
                 .catch(e => res.status(500)
