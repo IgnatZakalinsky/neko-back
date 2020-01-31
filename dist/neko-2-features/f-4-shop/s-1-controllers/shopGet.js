@@ -20,20 +20,32 @@ exports.shopGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0,
     product_1.default.count({}).exec().then(productTotalCount => {
         if (pageCount * (page - 1) > productTotalCount)
             page = 1;
-        // min/max price ; sortProducts
-        product_1.default.find({ productName: new RegExp(req.query.productName) })
-            .skip(pageCount * (page - 1))
-            .limit(pageCount)
-            .lean()
-            .exec()
-            .then(products => res.status(200)
-            .json({
-            products: products.map(p => (Object.assign(Object.assign({}, p), { id: p._id }))),
-            page, pageCount, productTotalCount,
-            minPrice: 1000, maxPrice: 9000,
-        }))
+        // sortProducts
+        product_1.default.findOne().sort({ price: 1 }).exec()
+            .then((productMin) => {
+            const min = productMin ? productMin.price : 1000;
+            product_1.default.findOne().sort({ price: -1 }).exec()
+                .then((productMax) => {
+                const max = productMax ? productMax.price : min;
+                product_1.default.find({ productName: new RegExp(req.query.productName) })
+                    .skip(pageCount * (page - 1))
+                    .limit(pageCount)
+                    .lean()
+                    .exec()
+                    .then(products => res.status(200)
+                    .json({
+                    products: products.map(p => (Object.assign(Object.assign({}, p), { id: p._id }))),
+                    page, pageCount, productTotalCount,
+                    minPrice: min, maxPrice: max,
+                }))
+                    .catch(e => res.status(500)
+                    .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.find' }));
+            })
+                .catch(e => res.status(500)
+                .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.findOne/max' }));
+        })
             .catch(e => res.status(500)
-            .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.find' }));
+            .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.findOne/min' }));
     })
         .catch(e => res.status(500)
         .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.count' }));
