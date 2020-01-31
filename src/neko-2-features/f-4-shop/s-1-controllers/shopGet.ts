@@ -21,7 +21,7 @@ export const shopGet = (path: string, shop: Router) =>
                         Product.find(
                             {
                                 productName: new RegExp(req.query.productName),
-                                price: {$gte: req.query.min || min}
+                                price: [{$gte: req.query.min || min}, {$lte: req.query.max || max}]
                             }
                         )
                             .skip(pageCount * (page - 1))
@@ -31,7 +31,12 @@ export const shopGet = (path: string, shop: Router) =>
                             .then(products => {
                                 // sortProducts
 
-                                Product.count({productName: new RegExp(req.query.productName)})
+                                Product.count(
+                                    {
+                                        productName: new RegExp(req.query.productName),
+                                        price: [{$gte: req.query.min || min}, {$lte: req.query.max || max}]
+                                    }
+                                )
                                     .exec()
                                     .then(productTotalCount => {
                                         if (pageCount * (page - 1) > productTotalCount) page = 1;

@@ -26,7 +26,7 @@ exports.shopGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0,
             const max = productMax ? productMax.price : min;
             product_1.default.find({
                 productName: new RegExp(req.query.productName),
-                price: { $gte: req.query.min || min }
+                price: [{ $gte: req.query.min || min }, { $lte: req.query.max || max }]
             })
                 .skip(pageCount * (page - 1))
                 .limit(pageCount)
@@ -34,7 +34,10 @@ exports.shopGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0,
                 .exec()
                 .then(products => {
                 // sortProducts
-                product_1.default.count({ productName: new RegExp(req.query.productName) })
+                product_1.default.count({
+                    productName: new RegExp(req.query.productName),
+                    price: [{ $gte: req.query.min || min }, { $lte: req.query.max || max }]
+                })
                     .exec()
                     .then(productTotalCount => {
                     if (pageCount * (page - 1) > productTotalCount)
