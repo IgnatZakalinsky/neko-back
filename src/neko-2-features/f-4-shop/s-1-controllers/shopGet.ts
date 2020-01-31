@@ -14,7 +14,7 @@ export const shopGet = (path: string, shop: Router) =>
 
             // min/max price ; productName ; sortProducts
 
-            Product.find({})
+            Product.find({productName: new RegExp(req.query.productName)})
                 .skip(pageCount * (page - 1))
                 .limit(pageCount)
                 .lean()

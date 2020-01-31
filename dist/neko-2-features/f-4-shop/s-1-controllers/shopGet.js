@@ -21,7 +21,7 @@ exports.shopGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0,
         if (pageCount * (page - 1) > productTotalCount)
             page = 1;
         // min/max price ; productName ; sortProducts
-        product_1.default.find({})
+        product_1.default.find({ productName: new RegExp(req.query.productName) })
             .skip(pageCount * (page - 1))
             .limit(pageCount)
             .lean()
