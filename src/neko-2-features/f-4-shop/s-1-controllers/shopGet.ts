@@ -18,18 +18,22 @@ export const shopGet = (path: string, shop: Router) =>
                     .then((productMax: IProduct | null) => {
                         const max = productMax ? productMax.price : min;
 
+                        const sortName = req.query.sortProducts && req.query.sortProducts.length > 2
+                            ? req.query.sortProducts.slice(1) : undefined;
+                        const direction = sortName ? (req.query.sortProducts[0] === '0' ? -1 : 1) : undefined;
+
                         Product.find(
                             {
                                 productName: new RegExp(req.query.productName),
                                 price: {$gte: req.query.min || min, $lte: req.query.max || max}
                             }
                         )
+                            .sort({[sortName]: direction})
                             .skip(pageCount * (page - 1))
                             .limit(pageCount)
                             .lean()
                             .exec()
                             .then(products => {
-                                // sortProducts
 
                                 Product.count(
                                     {
