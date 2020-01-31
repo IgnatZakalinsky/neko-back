@@ -9,46 +9,45 @@ export const shopGet = (path: string, shop: Router) =>
 
         // await Product.create({productName: 'fakeProduct', price: 2000}); // seed
 
-        Product.count({}).exec().then(productTotalCount => {
-            if (pageCount * (page - 1) > productTotalCount) page = 1;
+        Product.findOne().sort({price: 1}).exec()
+            .then((productMin: IProduct | null) => {
+                const min = productMin ? productMin.price : 1000;
 
-            // sortProducts
+                Product.findOne().sort({price: -1}).exec()
+                    .then((productMax: IProduct | null) => {
+                        const max = productMax ? productMax.price : min;
 
-            Product.findOne().sort({price: 1}).exec()
-                .then((productMin: IProduct | null) => {
-                    const min = productMin ? productMin.price : 1000;
+                        Product.find({productName: new RegExp(req.query.productName)})
+                            .skip(pageCount * (page - 1))
+                            .limit(pageCount)
+                            .lean()
+                            .exec()
+                            .then(products => {
+                                // sortProducts
 
-                    Product.findOne().sort({price: -1}).exec()
-                        .then((productMax: IProduct | null) => {
-                            const max = productMax ? productMax.price : min;
+                                Product.count({productName: new RegExp(req.query.productName)})
+                                    .exec()
+                                    .then(productTotalCount => {
+                                        if (pageCount * (page - 1) > productTotalCount) page = 1;
 
-                            Product.find({productName: new RegExp(req.query.productName)})
-                                .skip(pageCount * (page - 1))
-                                .limit(pageCount)
-                                .lean()
-                                .exec()
-                                .then(products =>
-                                    res.status(200)
-                                        .json({
-                                            products: products.map(p => ({...p, id: p._id})),
-                                            page, pageCount, productTotalCount,
-                                            minPrice: min, maxPrice: max,
-                                        }))
-
-                                .catch(e => res.status(500)
-                                    .json({error: 'some error', errorObject: e, in: 'shopGet/Product.find'}))
-                        })
-                        .catch(e => res.status(500)
-                            .json({error: 'some error', errorObject: e, in: 'shopGet/Product.findOne/max'}));
-                })
-                .catch(e => res.status(500)
-                    .json({error: 'some error', errorObject: e, in: 'shopGet/Product.findOne/min'}));
-
-
-        })
+                                        res.status(200)
+                                            .json({
+                                                products: products.map(p => ({...p, id: p._id})),
+                                                page, pageCount, productTotalCount,
+                                                minPrice: min, maxPrice: max,
+                                            })
+                                    })
+                                    .catch(e => res.status(500)
+                                        .json({error: 'some error', errorObject: e, in: 'shopGet/Product.count'}))
+                            })
+                            .catch(e => res.status(500)
+                                .json({error: 'some error', errorObject: e, in: 'shopGet/Product.find'}))
+                    })
+                    .catch(e => res.status(500)
+                        .json({error: 'some error', errorObject: e, in: 'shopGet/Product.findOne/max'}));
+            })
             .catch(e => res.status(500)
-                .json({error: 'some error', errorObject: e, in: 'shopGet/Product.count'}))
-
+                .json({error: 'some error', errorObject: e, in: 'shopGet/Product.findOne/min'}));
     });
 
 // Имя Описание

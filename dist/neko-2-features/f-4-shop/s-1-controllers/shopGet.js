@@ -17,38 +17,42 @@ exports.shopGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0,
     let page = +req.query.page || 1;
     const pageCount = +req.query.pageCount || 7;
     // await Product.create({productName: 'fakeProduct', price: 2000}); // seed
-    product_1.default.count({}).exec().then(productTotalCount => {
-        if (pageCount * (page - 1) > productTotalCount)
-            page = 1;
-        // sortProducts
-        product_1.default.findOne().sort({ price: 1 }).exec()
-            .then((productMin) => {
-            const min = productMin ? productMin.price : 1000;
-            product_1.default.findOne().sort({ price: -1 }).exec()
-                .then((productMax) => {
-                const max = productMax ? productMax.price : min;
-                product_1.default.find({ productName: new RegExp(req.query.productName) })
-                    .skip(pageCount * (page - 1))
-                    .limit(pageCount)
-                    .lean()
+    product_1.default.findOne().sort({ price: 1 }).exec()
+        .then((productMin) => {
+        const min = productMin ? productMin.price : 1000;
+        product_1.default.findOne().sort({ price: -1 }).exec()
+            .then((productMax) => {
+            const max = productMax ? productMax.price : min;
+            product_1.default.find({ productName: new RegExp(req.query.productName) })
+                .skip(pageCount * (page - 1))
+                .limit(pageCount)
+                .lean()
+                .exec()
+                .then(products => {
+                // sortProducts
+                product_1.default.count({ productName: new RegExp(req.query.productName) })
                     .exec()
-                    .then(products => res.status(200)
-                    .json({
-                    products: products.map(p => (Object.assign(Object.assign({}, p), { id: p._id }))),
-                    page, pageCount, productTotalCount,
-                    minPrice: min, maxPrice: max,
-                }))
+                    .then(productTotalCount => {
+                    if (pageCount * (page - 1) > productTotalCount)
+                        page = 1;
+                    res.status(200)
+                        .json({
+                        products: products.map(p => (Object.assign(Object.assign({}, p), { id: p._id }))),
+                        page, pageCount, productTotalCount,
+                        minPrice: min, maxPrice: max,
+                    });
+                })
                     .catch(e => res.status(500)
-                    .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.find' }));
+                    .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.count' }));
             })
                 .catch(e => res.status(500)
-                .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.findOne/max' }));
+                .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.find' }));
         })
             .catch(e => res.status(500)
-            .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.findOne/min' }));
+            .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.findOne/max' }));
     })
         .catch(e => res.status(500)
-        .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.count' }));
+        .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.findOne/min' }));
 }));
 // Имя Описание
 // $eq Соответствует значениям, которые равны указанному значению.
