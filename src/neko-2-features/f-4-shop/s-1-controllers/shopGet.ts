@@ -9,7 +9,8 @@ export const shopGet = (path: string, shop: Router) =>
 
         // await Product.create({productName: 'fakeProduct', price: 2000}); // seed
 
-        Product.findOne().sort({price: 1}).exec()
+        Product.findOne().sort({price: 1})
+            .exec()
             .then((productMin: IProduct | null) => {
                 const min = productMin ? productMin.price : 1000;
 
@@ -17,7 +18,12 @@ export const shopGet = (path: string, shop: Router) =>
                     .then((productMax: IProduct | null) => {
                         const max = productMax ? productMax.price : min;
 
-                        Product.find({productName: new RegExp(req.query.productName)})
+                        Product.find(
+                            {
+                                productName: new RegExp(req.query.productName),
+                                price: {$gte: req.query.min || min}
+                            }
+                        )
                             .skip(pageCount * (page - 1))
                             .limit(pageCount)
                             .lean()

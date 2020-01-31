@@ -17,13 +17,17 @@ exports.shopGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0,
     let page = +req.query.page || 1;
     const pageCount = +req.query.pageCount || 7;
     // await Product.create({productName: 'fakeProduct', price: 2000}); // seed
-    product_1.default.findOne().sort({ price: 1 }).exec()
+    product_1.default.findOne().sort({ price: 1 })
+        .exec()
         .then((productMin) => {
         const min = productMin ? productMin.price : 1000;
         product_1.default.findOne().sort({ price: -1 }).exec()
             .then((productMax) => {
             const max = productMax ? productMax.price : min;
-            product_1.default.find({ productName: new RegExp(req.query.productName) })
+            product_1.default.find({
+                productName: new RegExp(req.query.productName),
+                price: { $gte: req.query.min || min }
+            })
                 .skip(pageCount * (page - 1))
                 .limit(pageCount)
                 .lean()
