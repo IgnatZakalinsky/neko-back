@@ -26,7 +26,10 @@ exports.shopGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0,
             .limit(pageCount)
             .lean()
             .exec()
-            .then(products => res.status(200).json({ products, page, pageCount, productTotalCount }))
+            .then(products => res.status(200)
+            .json({
+            products: products.map(p => (Object.assign(Object.assign({}, p), { id: p._id }))), page, pageCount, productTotalCount
+        }))
             .catch(e => res.status(500)
             .json({ error: 'some error', errorObject: e, in: 'shopGet/Product.find' }));
     })
