@@ -17,7 +17,7 @@ exports.shopDelete = (path, shop) => shop.delete(path, (req, res) => __awaiter(v
     if (!req.query.id)
         res.status(400).json({ error: `No product id`, id: req.query.id });
     else
-        product_1.default.findByIdAndDelete(req.body.product.id)
+        product_1.default.findByIdAndDelete(req.query.id)
             .exec()
             .then((product) => {
             if (!product)

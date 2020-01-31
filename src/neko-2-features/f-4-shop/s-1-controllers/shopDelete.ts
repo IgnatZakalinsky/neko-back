@@ -7,7 +7,7 @@ export const shopDelete = (path: string, shop: Router) =>
         if (!req.query.id)
             res.status(400).json({error: `No product id`, id: req.query.id});
 
-        else Product.findByIdAndDelete(req.body.product.id)
+        else Product.findByIdAndDelete(req.query.id)
                 .exec()
                 .then((product: IProduct | null) => {
                     if (!product) res.status(400).json({error: `Product id not valid`, id: req.query.id});
