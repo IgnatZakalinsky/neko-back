@@ -19,6 +19,9 @@ const Product = new mongoose_1.Schema({
     },
     productType: {
         type: String,
+    },
+    rating: {
+        type: Number,
     }
 }, {
     timestamps: {

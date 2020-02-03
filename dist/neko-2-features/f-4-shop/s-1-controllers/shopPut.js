@@ -45,6 +45,6 @@ exports.shopPut = (path, shop) => shop.put(path, (req, res) => __awaiter(void 0,
                 res.status(200).json({ updatedProduct: product, success: true });
         })
             .catch(e => res.status(400)
-            .json({ error: 'some error', errorObject: e, in: 'shopPost/Product.create' }));
+            .json({ error: 'some error', errorObject: e, in: 'shopPut/Product.findByIdAndUpdate' }));
 }));
 //# sourceMappingURL=shopPut.js.map

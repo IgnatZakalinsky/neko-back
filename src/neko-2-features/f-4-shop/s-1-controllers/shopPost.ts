@@ -24,7 +24,8 @@ export const shopPost = (path: string, shop: Router) =>
                 {
                     productName: req.body.product.productName,
                     price: +req.body.product.price,
-                    productType: req.body.product.productType
+                    productType: req.body.product.productType,
+                    rating: 3
                 }
             )
                 .then((product: IProduct) => res.status(201).json({addedProduct: product, success: true}))

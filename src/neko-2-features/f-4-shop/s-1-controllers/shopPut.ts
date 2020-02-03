@@ -41,5 +41,5 @@ export const shopPut = (path: string, shop: Router) =>
                 })
 
                 .catch(e => res.status(400)
-                    .json({error: 'some error', errorObject: e, in: 'shopPost/Product.create'}));
+                    .json({error: 'some error', errorObject: e, in: 'shopPut/Product.findByIdAndUpdate'}));
     });
