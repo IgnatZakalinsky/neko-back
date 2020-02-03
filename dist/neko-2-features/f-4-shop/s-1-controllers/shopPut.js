@@ -31,7 +31,11 @@ exports.shopPut = (path, shop) => shop.put(path, (req, res) => __awaiter(void 0,
     else if (!req.body.product.id)
         res.status(400).json({ error: `No product id`, id: req.body.product.id });
     else
-        product_1.default.findByIdAndUpdate(req.body.product.id, { productName: req.body.product.productName, price: +req.body.product.price }, { new: true })
+        product_1.default.findByIdAndUpdate(req.body.product.id, {
+            productName: req.body.product.productName,
+            price: +req.body.product.price,
+            productType: req.body.product.productType
+        }, { new: true })
             .exec()
             .then((product) => {
             if (!product)

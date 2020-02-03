@@ -29,7 +29,11 @@ exports.shopPost = (path, shop) => shop.post(path, (req, res) => __awaiter(void 
             price: req.body.product.price
         });
     else
-        product_1.default.create({ productName: req.body.product.productName, price: +req.body.product.price })
+        product_1.default.create({
+            productName: req.body.product.productName,
+            price: +req.body.product.price,
+            productType: req.body.product.productType
+        })
             .then((product) => res.status(201).json({ addedProduct: product, success: true }))
             .catch(e => res.status(400)
             .json({ error: 'some error', errorObject: e, in: 'shopPost/Product.create' }));

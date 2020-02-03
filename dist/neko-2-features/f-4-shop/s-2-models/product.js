@@ -17,6 +17,9 @@ const Product = new mongoose_1.Schema({
         type: Number,
         required: true
     },
+    productType: {
+        type: String,
+    }
 }, {
     timestamps: {
         createdAt: 'created',

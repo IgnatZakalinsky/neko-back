@@ -4,6 +4,7 @@ export interface IProduct extends Document {
     _id: mongoose.Types.ObjectId;
     productName: string;
     price: number;
+    productType: string;
 
     created: Date;
     updated: Date;
@@ -21,6 +22,9 @@ const Product: Schema = new Schema(
             type: Number,
             required: true
         },
+        productType: {
+            type: String,
+        }
 
     },
     {

@@ -25,7 +25,11 @@ export const shopPut = (path: string, shop: Router) =>
 
         else Product.findByIdAndUpdate(
                 req.body.product.id,
-                {productName: req.body.product.productName, price: +req.body.product.price},
+                {
+                    productName: req.body.product.productName,
+                    price: +req.body.product.price,
+                    productType: req.body.product.productType
+                },
                 {new: true}
                 )
                 .exec()

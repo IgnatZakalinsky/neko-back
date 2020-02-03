@@ -20,10 +20,16 @@ export const shopPost = (path: string, shop: Router) =>
                     price: req.body.product.price
                 });
 
-        else Product.create({productName: req.body.product.productName, price: +req.body.product.price})
-            .then((product: IProduct) => res.status(201).json({addedProduct: product, success: true}))
+        else Product.create(
+                {
+                    productName: req.body.product.productName,
+                    price: +req.body.product.price,
+                    productType: req.body.product.productType
+                }
+            )
+                .then((product: IProduct) => res.status(201).json({addedProduct: product, success: true}))
 
-            .catch(e => res.status(400)
-                .json({error: 'some error', errorObject: e, in: 'shopPost/Product.create'}));
+                .catch(e => res.status(400)
+                    .json({error: 'some error', errorObject: e, in: 'shopPost/Product.create'}));
 
     });
