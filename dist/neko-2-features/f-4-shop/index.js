@@ -8,10 +8,12 @@ const shopGet_1 = require("./s-1-controllers/shopGet");
 const shopPost_1 = require("./s-1-controllers/shopPost");
 const shopPut_1 = require("./s-1-controllers/shopPut");
 const shopDelete_1 = require("./s-1-controllers/shopDelete");
+const shopBuyPost_1 = require("./s-1-controllers/shopBuyPost");
 const shop = express_1.default.Router();
 shopGet_1.shopGet('/', shop);
 shopPost_1.shopPost('/', shop);
 shopPut_1.shopPut('/', shop);
 shopDelete_1.shopDelete('/', shop);
+shopBuyPost_1.shopBuyPost('/buy', shop);
 exports.default = shop;
 //# sourceMappingURL=index.js.map
