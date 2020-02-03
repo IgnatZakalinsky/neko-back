@@ -28,7 +28,7 @@ export const shopGet = (path: string, shop: Router) =>
                                 price: {$gte: req.query.min || min, $lte: req.query.max || max}
                             }
                         )
-                            .sort({[sortName]: direction})
+                            .sort({[sortName]: direction, updated: -1})
                             .skip(pageCount * (page - 1))
                             .limit(pageCount)
                             .lean()

@@ -31,7 +31,7 @@ exports.shopGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0,
                 productName: new RegExp(req.query.productName),
                 price: { $gte: req.query.min || min, $lte: req.query.max || max }
             })
-                .sort({ [sortName]: direction })
+                .sort({ [sortName]: direction, updated: -1 })
                 .skip(pageCount * (page - 1))
                 .limit(pageCount)
                 .lean()
