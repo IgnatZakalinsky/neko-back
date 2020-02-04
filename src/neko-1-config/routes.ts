@@ -3,7 +3,7 @@ import auth from "../neko-2-features/f-1-auth";
 import users from "../neko-2-features/f-2-users";
 import privateChats from "../neko-2-features/f-3-private-chats";
 import shop from "../neko-2-features/f-4-shop/index";
-// import file from "../controllers/file";
+import file from "../neko-2-features/f-5-file/index";
 
 export const routes = (app: Express) => {
     // routes
@@ -13,7 +13,7 @@ export const routes = (app: Express) => {
 
     app.use('/shop', shop);
 
-    // app.use('/file', file);
+    app.use('/file', file);
 
     //default
     app.use((req: Request, res: Response) => {
