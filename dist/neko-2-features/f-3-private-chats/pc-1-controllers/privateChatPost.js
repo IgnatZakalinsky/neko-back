@@ -44,6 +44,6 @@ exports.privateChatPost = (path, privateChat) => privateChat.post(path, (req, re
                 .catch(e => res.status(500)
                 .json({ error: 'some error', errorObject: e, in: 'privateChatPost/PrivateChat.create' }));
     });
-    findUserByToken_1.findUserByToken(req, res, req.query.token, f, 'privateChatPost');
+    findUserByToken_1.findUserByToken(req, res, req.body.token, f, 'privateChatPost');
 }));
 //# sourceMappingURL=privateChatPost.js.map

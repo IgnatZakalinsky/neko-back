@@ -38,5 +38,5 @@ export const privateChatPost = (path: string, privateChat: Router) =>
                     .json({error: 'some error', errorObject: e, in: 'privateChatPost/PrivateChat.create'}));
         };
 
-        findUserByToken(req, res, req.query.token, f, 'privateChatPost');
+        findUserByToken(req, res, req.body.token, f, 'privateChatPost');
     });
