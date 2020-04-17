@@ -19,19 +19,19 @@ exports.appUse = (app) => {
     // for files
     const storageConfig = multer_1.default.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, "uploads");
+            cb(null, __dirname + "/uploads");
         },
         filename: (req, file, cb) => {
-            // cb(null, file.originalname);
-            cb(null, 'file');
+            // cb(null, file.jpg.originalname);
+            cb(null, 'file.jpg');
         }
     });
     // // определение фильтра
-    // const fileFilter = (req, file, cb) => {
+    // const fileFilter = (req, file.jpg, cb) => {
     //
-    //     if(file.mimetype === "image/png" ||
-    //         file.mimetype === "image/jpg"||
-    //         file.mimetype === "image/jpeg"){
+    //     if(file.jpg.mimetype === "image/png" ||
+    //         file.jpg.mimetype === "image/jpg"||
+    //         file.jpg.mimetype === "image/jpeg"){
     //         cb(null, true);
     //     }
     //     else{

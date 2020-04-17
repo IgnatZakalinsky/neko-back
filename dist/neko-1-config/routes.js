@@ -14,7 +14,7 @@ exports.routes = (app) => {
     app.use('/users', f_2_users_1.default);
     app.use('/private-chats', f_3_private_chats_1.default);
     app.use('/shop', index_1.default);
-    app.use('/file', index_2.default);
+    app.use('/file.jpg', index_2.default);
     //default
     app.use((req, res) => {
         console.log('bad url: ', req.method, req.url);

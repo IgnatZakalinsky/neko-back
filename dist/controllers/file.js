@@ -27,7 +27,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.body.file64)
         success = fileFake_1.fileStore.addFile64(req.body.file64);
     else {
-        // save file
+        // save file.jpg
     }
     if (success)
         res.send(JSON.stringify(success));

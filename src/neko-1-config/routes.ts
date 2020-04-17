@@ -13,7 +13,7 @@ export const routes = (app: Express) => {
 
     app.use('/shop', shop);
 
-    app.use('/file', file);
+    app.use('/file.jpg', file);
 
     //default
     app.use((req: Request, res: Response) => {
