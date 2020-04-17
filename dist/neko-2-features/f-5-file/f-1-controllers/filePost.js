@@ -24,7 +24,7 @@ exports.filePost = (path, shop) => shop.post(path, (req, res) => __awaiter(void 
 exports.fileGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { url } = req.query;
     console.log(url);
-    fs_1.default.readFile(__dirname + '/uploads/file.jpg.jpg', (e, data) => {
+    fs_1.default.readFile(__dirname + '/../../../uploads/file.jpg', (e, data) => {
         if (!e) {
             res.status(200).end(data);
         }

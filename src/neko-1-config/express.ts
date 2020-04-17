@@ -19,7 +19,7 @@ export const appUse = (app: Express) => {
     // for files
     const storageConfig = multer.diskStorage({
         destination: (req, file, cb) =>{
-            cb(null, __dirname + "/uploads");
+            cb(null, __dirname + "/../uploads");
         },
         filename: (req, file, cb) =>{
             // cb(null, file.jpg.originalname);

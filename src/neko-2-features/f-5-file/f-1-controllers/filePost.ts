@@ -19,7 +19,7 @@ export const fileGet = (path: string, shop: Router) =>
         const {url} = req.query;
         console.log(url);
 
-        fs.readFile(__dirname + '/uploads/file.jpg', (e, data) => {
+        fs.readFile(__dirname + '/../../../uploads/file.jpg', (e, data) => {
             if (!e) {
                 res.status(200).end(data);
 

@@ -19,7 +19,7 @@ exports.appUse = (app) => {
     // for files
     const storageConfig = multer_1.default.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, __dirname + "/uploads");
+            cb(null, __dirname + "/../uploads");
         },
         filename: (req, file, cb) => {
             // cb(null, file.jpg.originalname);
