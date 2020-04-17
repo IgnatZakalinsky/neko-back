@@ -1,6 +1,6 @@
 "use strict";
-// @ts-ignore
-const fileStore = {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.fileStore = {
     files64: [
         { f: 'test' }
     ],
@@ -15,5 +15,4 @@ const fileStore = {
             return { error: `n=[${n}] must be between -1 and ${this.files64.length}` };
     }
 };
-module.exports = fileStore;
 //# sourceMappingURL=fileFake.js.map

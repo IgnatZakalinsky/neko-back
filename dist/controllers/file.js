@@ -1,6 +1,4 @@
 "use strict";
-// const {addUserMongo, getUsersMongo, deleteUsersMongo, getUsersMongoById, updateUsersMongo} = require("./mongoRep");
-// let {getUsers, addUser} = require('./rep.js');
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -10,20 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-// @ts-ignore
-const express = require('express');
-// @ts-ignore
-const fileStore = require('./../bd/fileFake');
-// @ts-ignore
-const router = express.Router();
-// middleware that is specific to this router
-router.use(function timeLog(req, res, next) {
-    console.log('Time: ', Date.now(), fileStore);
-    next();
-});
+const express_1 = __importDefault(require("express"));
+const fileFake_1 = require("../bd/fileFake");
+const router = express_1.default.Router();
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const file = fileStore.getFile64(req.query.n);
+    const file = fileFake_1.fileStore.getFile64(req.query.n);
     if (file)
         res.send(JSON.stringify(file));
     else
@@ -32,7 +25,7 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let success = { success: false };
     if (req.body.file64)
-        success = fileStore.addFile64(req.body.file64);
+        success = fileFake_1.fileStore.addFile64(req.body.file64);
     else {
         // save file
     }
@@ -41,17 +34,5 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     else
         res.send(404);
 }));
-// router.delete('/', async (req: any, res: any) => {
-//     const product = shopStore.deleteProduct(req.query.id);
-//
-//     if (product) res.send(JSON.stringify(product));
-//     else res.send(404);
-// });
-// router.put('/', async (req: any, res: any) => {
-//     const product = shopStore.updateProduct(req.body.product);
-//
-//     if (product) res.send(JSON.stringify(product));
-//     else res.send(404);
-// });
 exports.default = router;
 //# sourceMappingURL=file.js.map

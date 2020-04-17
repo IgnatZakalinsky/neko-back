@@ -1,5 +1,4 @@
-// @ts-ignore
-const fileStore = {
+export const fileStore = {
     files64: [
         {f: 'test'}
     ],
@@ -14,5 +13,3 @@ const fileStore = {
         else return {error: `n=[${n}] must be between -1 and ${this.files64.length}`}
     }
 };
-
-module.exports = fileStore;

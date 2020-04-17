@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.filePost = (path, shop) => shop.post(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const fileData = req.file;
+    console.log(fileData);
     res.status(200).json({ answer: 'hz' });
 }));
 //# sourceMappingURL=filePost.js.map
