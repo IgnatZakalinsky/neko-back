@@ -18,11 +18,11 @@ export const fileGet = (path: string, shop: Router) =>
     shop.get(path, async (req: Request, res: Response) => {
         const {url} = req.query;
         console.log(url);
-
-        fs.readFile('uploads/file', (e, data) => {
-            if (!e) {
-                res.status(200).end(data);
-
-            } else res.status(500).json({error: 'some error, I hz :)', errorObj: {...e}})
-        });
+        //
+        // fs.readFile('uploads/file', (e, data) => {
+        //     if (!e) {
+        //         res.status(200).end(data);
+        //
+        //     } else res.status(500).json({error: 'some error, I hz :)', errorObj: {...e}})
+        // });
     });
