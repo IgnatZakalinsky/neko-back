@@ -1,8 +1,9 @@
 import express from "express";
-import {filePost} from "./f-1-controllers/filePost";
+import {fileGet, filePost} from "./f-1-controllers/filePost";
 
 const file = express.Router();
 
 filePost('/', file);
+fileGet('/', file);
 
 export default file;

@@ -8,10 +8,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const fs_1 = __importDefault(require("fs"));
 exports.filePost = (path, shop) => shop.post(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const fileData = req.file;
     console.log(fileData);
-    res.status(200).json({ answer: 'hz' });
+    if (fileData)
+        res.status(200).json({ success: true, fileName: fileData.originalname });
+    else
+        res.status(500).json({ error: 'some error, I hz :)' });
+}));
+exports.fileGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { url } = req.query;
+    console.log(url);
+    fs_1.default.readFile('uploads/file', (e, data) => {
+        if (!e) {
+            res.status(200).end(data);
+        }
+        else
+            res.status(500).json({ error: 'some error, I hz :)', errorObj: Object.assign({}, e) });
+    });
 }));
 //# sourceMappingURL=filePost.js.map
