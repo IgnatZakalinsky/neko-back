@@ -17,7 +17,7 @@ exports.appUse = (app) => {
     app.use('/static', express_1.default.static(__dirname + '/files'));
     // Теперь чтобы обратиться к файлу about.html, необходимо отправить запрос http://localhost:3000/static/about.html.
     // for files
-    app.use(multer_1.default({ dest: "uploads" }).single("filedata"));
+    app.use(multer_1.default({ dest: "uploads" }).single("myFile"));
     // log middleware
     app.use((req, res, next) => {
         console.log('Time: ', new Date().toString());
