@@ -11,6 +11,8 @@ export const filePost = (path: string, shop: Router) =>
 
         else res.status(500).json({error: 'some error, I hz :)'})
     });
+
+
 export const fileGet = (path: string, shop: Router) =>
 
     shop.get(path, async (req: Request, res: Response) => {
