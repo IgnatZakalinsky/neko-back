@@ -21,7 +21,7 @@ export const fileGet = (path: string, shop: Router) =>
 
         fs.readFile(__dirname + '/../../../uploads/file.jpg', (e, data) => {
             if (!e) {
-                res.status(200).end(data);
+                res.end(data);
 
             } else res.status(500).json({error: 'some error, I hz :)', errorObj: {...e}})
         });
