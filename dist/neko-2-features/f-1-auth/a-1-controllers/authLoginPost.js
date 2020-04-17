@@ -25,7 +25,7 @@ exports.authLoginPost = (path, auth) => auth.post('/login', (req, res) => __awai
             const tokenDeathTime = req.body.rememberMe
                 ? new Date().getTime() + (1000 * 60 * 60 * 24 * 7) // 7 day
                 : new Date().getTime() + (1000 * 60 * 60 * 24); // 1 day
-            user_1.default.findByIdAndUpdate(user.id, { token, tokenDeathTime, rememberMe: req.body.rememberMe }, { new: true })
+            user_1.default.findByIdAndUpdate(user._id, { token, tokenDeathTime, rememberMe: req.body.rememberMe }, { new: true })
                 .exec()
                 .then((newUser) => {
                 if (!newUser)

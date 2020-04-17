@@ -12,7 +12,7 @@ export const authMePost = (path: string, auth: Router) =>
                 ? new Date().getTime() + (1000 * 60 * 60 * 24 * 7) // 7 day
                 : new Date().getTime() + (1000 * 60 * 60 * 24); // 1 day
 
-            User.findByIdAndUpdate(user.id, {token, tokenDeathTime}, {new: true})
+            User.findByIdAndUpdate(user._id, {token, tokenDeathTime}, {new: true})
                 .then((newUser: IUser | null) => {
                     if (!newUser) res.status(500).json({error: 'not updated?', in: 'authMePost'});
 

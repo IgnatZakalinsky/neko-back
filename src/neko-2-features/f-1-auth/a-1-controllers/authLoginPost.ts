@@ -18,7 +18,7 @@ export const authLoginPost = (path: string, auth: Router) =>
                         : new Date().getTime() + (1000 * 60 * 60 * 24); // 1 day
 
                     User.findByIdAndUpdate(
-                        user.id,
+                        user._id,
                         {token, tokenDeathTime, rememberMe: req.body.rememberMe},
                         {new: true})
                         .exec()

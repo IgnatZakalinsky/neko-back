@@ -21,7 +21,7 @@ exports.authMePost = (path, auth) => auth.post('/me', (req, res) => __awaiter(vo
         const tokenDeathTime = user.rememberMe
             ? new Date().getTime() + (1000 * 60 * 60 * 24 * 7) // 7 day
             : new Date().getTime() + (1000 * 60 * 60 * 24); // 1 day
-        user_1.default.findByIdAndUpdate(user.id, { token, tokenDeathTime }, { new: true })
+        user_1.default.findByIdAndUpdate(user._id, { token, tokenDeathTime }, { new: true })
             .then((newUser) => {
             if (!newUser)
                 res.status(500).json({ error: 'not updated?', in: 'authMePost' });
