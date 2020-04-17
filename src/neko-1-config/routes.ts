@@ -13,11 +13,11 @@ export const routes = (app: Express) => {
 
     app.use('/shop', shop);
 
-    app.use('/file.jpg', file);
+    app.use('/file', file);
 
     //default
     app.use((req: Request, res: Response) => {
         console.log('bad url: ', req.method, req.url);
-        res.send(404);
+        res.sendStatus(404);
     });
 };
