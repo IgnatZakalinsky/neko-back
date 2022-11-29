@@ -5,7 +5,7 @@ export const routes = (app: Express) => {
     // routes
 
     app.use('/', (req: Request, res: Response) => {
-        res.status(200).send('hi!');
+        res.status(200).send('hi!hi!');
     });
 
     app.use('/file', file);
