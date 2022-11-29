@@ -4,10 +4,6 @@ import file from "../neko-2-features/f-5-file/index";
 export const routes = (app: Express) => {
     // routes
 
-    app.use('/', (req: Request, res: Response) => {
-        res.status(200).send('hi!hi!');
-    });
-
     app.use('/file', file);
 
     //default
